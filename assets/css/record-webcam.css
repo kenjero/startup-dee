@@ -1,0 +1,78 @@
+video {
+  width: 100%;
+}
+
+#recording-indicator {
+    text-align: right;
+    display:none;
+    color: white;
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+#recording-error {
+  position: absolute;
+  text-align: center;
+  display:none;
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#recording-loader {
+  position: absolute;
+  text-align: center;
+  display:none;
+  color: white;
+  top: 50%;
+  left: 50%;
+  width: 90%; 
+  transform: translate(-50%, -50%);
+}
+
+/* Container holding the image and the text */
+#container {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin : 20px 0;
+}
+
+/* Bottom left text */
+.recording-bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+/* Top left text */
+.recording-top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+/* Top right text */
+.recording-top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* Bottom right text */
+.recording-bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text */
+.recording-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

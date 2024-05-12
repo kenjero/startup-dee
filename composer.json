@@ -1,0 +1,9 @@
+{
+    "require": {
+        "google/apiclient": "^2.15",
+        "yethee/tiktoken": "^0.3.0",
+        "ecomphp/tiktokshop-php": "^2.2",
+        "socialiteproviders/tiktok": "^5.1",
+        "bastiaandewaele/oauth2-tiktok": "^2.0"
+    }
+}
