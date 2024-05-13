@@ -24,10 +24,6 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
    * @var string[]
    */
   public $annotations;
-  /**
-   * @var GoogleCloudRunV2Container[]
-   */
-  public $containers;
   protected $containersType = GoogleCloudRunV2Container::class;
   protected $containersDataType = 'array';
   /**
@@ -39,6 +35,10 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
    */
   public $executionEnvironment;
   /**
+   * @var bool
+   */
+  public $healthCheckDisabled;
+  /**
    * @var string[]
    */
   public $labels;
@@ -46,14 +46,12 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
    * @var int
    */
   public $maxInstanceRequestConcurrency;
+  protected $nodeSelectorType = GoogleCloudRunV2NodeSelector::class;
+  protected $nodeSelectorDataType = '';
   /**
    * @var string
    */
   public $revision;
-  /**
-   * @var GoogleCloudRunV2RevisionScaling
-   */
-  public $scaling;
   protected $scalingType = GoogleCloudRunV2RevisionScaling::class;
   protected $scalingDataType = '';
   /**
@@ -68,16 +66,8 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
    * @var string
    */
   public $timeout;
-  /**
-   * @var GoogleCloudRunV2Volume[]
-   */
-  public $volumes;
   protected $volumesType = GoogleCloudRunV2Volume::class;
   protected $volumesDataType = 'array';
-  /**
-   * @var GoogleCloudRunV2VpcAccess
-   */
-  public $vpcAccess;
   protected $vpcAccessType = GoogleCloudRunV2VpcAccess::class;
   protected $vpcAccessDataType = '';
 
@@ -138,6 +128,20 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
     return $this->executionEnvironment;
   }
   /**
+   * @param bool
+   */
+  public function setHealthCheckDisabled($healthCheckDisabled)
+  {
+    $this->healthCheckDisabled = $healthCheckDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getHealthCheckDisabled()
+  {
+    return $this->healthCheckDisabled;
+  }
+  /**
    * @param string[]
    */
   public function setLabels($labels)
@@ -164,6 +168,20 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   public function getMaxInstanceRequestConcurrency()
   {
     return $this->maxInstanceRequestConcurrency;
+  }
+  /**
+   * @param GoogleCloudRunV2NodeSelector
+   */
+  public function setNodeSelector(GoogleCloudRunV2NodeSelector $nodeSelector)
+  {
+    $this->nodeSelector = $nodeSelector;
+  }
+  /**
+   * @return GoogleCloudRunV2NodeSelector
+   */
+  public function getNodeSelector()
+  {
+    return $this->nodeSelector;
   }
   /**
    * @param string

@@ -19,38 +19,22 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends \Google\Model
 {
-  /**
-   * @var GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestConversationConfig
-   */
-  public $conversationConfig;
   protected $conversationConfigType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestConversationConfig::class;
   protected $conversationConfigDataType = '';
-  /**
-   * @var GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestGcsSource
-   */
-  public $gcsSource;
   protected $gcsSourceType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestGcsSource::class;
   protected $gcsSourceDataType = '';
   /**
    * @var string
    */
   public $parent;
-  /**
-   * @var GoogleCloudContactcenterinsightsV1alpha1RedactionConfig
-   */
-  public $redactionConfig;
   protected $redactionConfigType = GoogleCloudContactcenterinsightsV1alpha1RedactionConfig::class;
   protected $redactionConfigDataType = '';
   /**
-   * @var GoogleCloudContactcenterinsightsV1alpha1SpeechConfig
+   * @var int
    */
-  public $speechConfig;
+  public $sampleSize;
   protected $speechConfigType = GoogleCloudContactcenterinsightsV1alpha1SpeechConfig::class;
   protected $speechConfigDataType = '';
-  /**
-   * @var GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig
-   */
-  public $transcriptObjectConfig;
   protected $transcriptObjectConfigType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig::class;
   protected $transcriptObjectConfigDataType = '';
 
@@ -109,6 +93,20 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends
   public function getRedactionConfig()
   {
     return $this->redactionConfig;
+  }
+  /**
+   * @param int
+   */
+  public function setSampleSize($sampleSize)
+  {
+    $this->sampleSize = $sampleSize;
+  }
+  /**
+   * @return int
+   */
+  public function getSampleSize()
+  {
+    return $this->sampleSize;
   }
   /**
    * @param GoogleCloudContactcenterinsightsV1alpha1SpeechConfig

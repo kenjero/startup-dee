@@ -11,7 +11,7 @@
     $client->setClientId(API_GOOGLE_CLIENT_ID);
     $client->setClientSecret(API_GOOGLE_CLIENT_SECRET);
     $client->setRedirectUri(GOOGLE_CALLBACK_URL);
-    $client->setScopes(['email', 'profile', 'https://www.googleapis.com/auth/drive']);
+    $client->setScopes(['email', 'profile']);
     $client->setAccessType('offline');
     $client->setApprovalPrompt('force');
 
@@ -32,18 +32,34 @@
                 exit;
             }
         }
-    
+
         $client->setAccessToken($_SESSION['access_token']);
         $service = new Google\Service\Oauth2($client);
         $userInfo = $service->userinfo->get(); // ดึงข้อมูลผู้ใช้
+
+        $sql = "SELECT am.*, ag.* AS customer_name
+                FROM `auth_member` AS am
+                JOIN `auth_google` AS ag ON `am.id` = `ag.member_id`
+                WHERE ag.email = :
+                ";
+        
+        $statement = $db->prepare($sql);
+        $statement->bindParam(':username', $userInfo->getEmail(), PDO::PARAM_STR);
+        $statement->execute();
+
+        $sql_user = $statement->fetch(PDO::FETCH_ASSOC);
+        
     
-        $email = $userInfo->getEmail();
-        $name = $userInfo->getName();
-    
+        /*
+        
+        
         $dataArray = [
-            "access_token" => $_SESSION['access_token']['access_token'], // เก็บเฉพาะ access token
-            "email"        => $email,
-            "name"         => $name,
+            "token"  => $_SESSION['access_token']['access_token'], // เก็บเฉพาะ access token
+            "email"         => $userInfo->getEmail(),
+            "name"          => $userInfo->getname(),
+            "picture"       => $userInfo->getPicture(),
+            "verifiedEmail" => $userInfo->getVerifiedEmail(),
+            "locale"        => $userInfo->getLocale(),
         ];
     
         $keysString = implode(", ", array_keys($dataArray));
@@ -54,11 +70,11 @@
         foreach ($dataArray as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
-        $Oauth = $stmt->execute();
+        $Oauth = $stmt->execute(); */
 
-        if ($Oauth) {
+        /* if ($Oauth) {
             echo '<script>window.close();</script>';
-        }
+        } */
         
     }
 ?>

@@ -25,12 +25,10 @@ class RunAggregationQueryRequest extends \Google\Model
    * @var string
    */
   public $databaseId;
+  protected $explainOptionsType = ExplainOptions::class;
+  protected $explainOptionsDataType = '';
   protected $gqlQueryType = GqlQuery::class;
   protected $gqlQueryDataType = '';
-  /**
-   * @var string
-   */
-  public $mode;
   protected $partitionIdType = PartitionId::class;
   protected $partitionIdDataType = '';
   protected $readOptionsType = ReadOptions::class;
@@ -65,6 +63,20 @@ class RunAggregationQueryRequest extends \Google\Model
     return $this->databaseId;
   }
   /**
+   * @param ExplainOptions
+   */
+  public function setExplainOptions(ExplainOptions $explainOptions)
+  {
+    $this->explainOptions = $explainOptions;
+  }
+  /**
+   * @return ExplainOptions
+   */
+  public function getExplainOptions()
+  {
+    return $this->explainOptions;
+  }
+  /**
    * @param GqlQuery
    */
   public function setGqlQuery(GqlQuery $gqlQuery)
@@ -77,20 +89,6 @@ class RunAggregationQueryRequest extends \Google\Model
   public function getGqlQuery()
   {
     return $this->gqlQuery;
-  }
-  /**
-   * @param string
-   */
-  public function setMode($mode)
-  {
-    $this->mode = $mode;
-  }
-  /**
-   * @return string
-   */
-  public function getMode()
-  {
-    return $this->mode;
   }
   /**
    * @param PartitionId

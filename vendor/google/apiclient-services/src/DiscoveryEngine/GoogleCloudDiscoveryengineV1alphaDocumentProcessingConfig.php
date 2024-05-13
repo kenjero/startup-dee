@@ -19,13 +19,45 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig extends \Google\Model
 {
+  protected $chunkingConfigType = GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig::class;
+  protected $chunkingConfigDataType = '';
+  protected $defaultParsingConfigType = GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig::class;
+  protected $defaultParsingConfigDataType = '';
   /**
    * @var string
    */
   public $name;
-  protected $ocrConfigType = GoogleCloudDiscoveryengineV1alphaOcrConfig::class;
-  protected $ocrConfigDataType = '';
+  protected $parsingConfigOverridesType = GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig::class;
+  protected $parsingConfigOverridesDataType = 'map';
 
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig
+   */
+  public function setChunkingConfig(GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig $chunkingConfig)
+  {
+    $this->chunkingConfig = $chunkingConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig
+   */
+  public function getChunkingConfig()
+  {
+    return $this->chunkingConfig;
+  }
+  /**
+   * @param GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig
+   */
+  public function setDefaultParsingConfig(GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig $defaultParsingConfig)
+  {
+    $this->defaultParsingConfig = $defaultParsingConfig;
+  }
+  /**
+   * @return GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig
+   */
+  public function getDefaultParsingConfig()
+  {
+    return $this->defaultParsingConfig;
+  }
   /**
    * @param string
    */
@@ -41,18 +73,18 @@ class GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig extends \Google\
     return $this->name;
   }
   /**
-   * @param GoogleCloudDiscoveryengineV1alphaOcrConfig
+   * @param GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig[]
    */
-  public function setOcrConfig(GoogleCloudDiscoveryengineV1alphaOcrConfig $ocrConfig)
+  public function setParsingConfigOverrides($parsingConfigOverrides)
   {
-    $this->ocrConfig = $ocrConfig;
+    $this->parsingConfigOverrides = $parsingConfigOverrides;
   }
   /**
-   * @return GoogleCloudDiscoveryengineV1alphaOcrConfig
+   * @return GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig[]
    */
-  public function getOcrConfig()
+  public function getParsingConfigOverrides()
   {
-    return $this->ocrConfig;
+    return $this->parsingConfigOverrides;
   }
 }
 

@@ -21,6 +21,8 @@ use Google\Service\Aiplatform\GoogleCloudAiplatformV1FeatureView;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1FetchFeatureValuesRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1FetchFeatureValuesResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListFeatureViewsResponse;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1SearchNearestEntitiesRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1SearchNearestEntitiesResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1SyncFeatureViewRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1SyncFeatureViewResponse;
 use Google\Service\Aiplatform\GoogleLongrunningOperation;
@@ -167,7 +169,7 @@ class ProjectsLocationsFeatureOnlineStoresFeatureViews extends \Google\Service\R
    * field will be overwritten if it is in the mask. If the user does not provide
    * a mask then only the non-empty fields present in the request will be
    * overwritten. Set the update_mask to `*` to override all fields. Updatable
-   * fields: * `labels`
+   * fields: * `labels` * `serviceAgentType`
    * @return GoogleLongrunningOperation
    * @throws \Google\Service\Exception
    */
@@ -176,6 +178,25 @@ class ProjectsLocationsFeatureOnlineStoresFeatureViews extends \Google\Service\R
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Search the nearest entities under a FeatureView. Search only works for
+   * indexable feature view; if a feature view isn't indexable, returns Invalid
+   * argument response. (featureViews.searchNearestEntities)
+   *
+   * @param string $featureView Required. FeatureView resource format `projects/{p
+   * roject}/locations/{location}/featureOnlineStores/{featureOnlineStore}/feature
+   * Views/{featureView}`
+   * @param GoogleCloudAiplatformV1SearchNearestEntitiesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAiplatformV1SearchNearestEntitiesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function searchNearestEntities($featureView, GoogleCloudAiplatformV1SearchNearestEntitiesRequest $postBody, $optParams = [])
+  {
+    $params = ['featureView' => $featureView, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('searchNearestEntities', [$params], GoogleCloudAiplatformV1SearchNearestEntitiesResponse::class);
   }
   /**
    * Triggers on-demand sync for the FeatureView. (featureViews.sync)

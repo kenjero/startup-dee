@@ -24,20 +24,12 @@ class Trigger extends \Google\Collection
    * @var string
    */
   public $channel;
-  /**
-   * @var StateCondition[]
-   */
-  public $conditions;
   protected $conditionsType = StateCondition::class;
   protected $conditionsDataType = 'map';
   /**
    * @var string
    */
   public $createTime;
-  /**
-   * @var Destination
-   */
-  public $destination;
   protected $destinationType = Destination::class;
   protected $destinationDataType = '';
   /**
@@ -48,10 +40,6 @@ class Trigger extends \Google\Collection
    * @var string
    */
   public $eventDataContentType;
-  /**
-   * @var EventFilter[]
-   */
-  public $eventFilters;
   protected $eventFiltersType = EventFilter::class;
   protected $eventFiltersDataType = 'array';
   /**
@@ -63,13 +51,13 @@ class Trigger extends \Google\Collection
    */
   public $name;
   /**
+   * @var bool
+   */
+  public $satisfiesPzs;
+  /**
    * @var string
    */
   public $serviceAccount;
-  /**
-   * @var Transport
-   */
-  public $transport;
   protected $transportType = Transport::class;
   protected $transportDataType = '';
   /**
@@ -206,6 +194,20 @@ class Trigger extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param string

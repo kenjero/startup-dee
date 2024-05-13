@@ -1,9 +1,6 @@
 <?php
-require_once 'php.config.inc.php';
 
-$db    = (new Database(DB_USER, DB_PASS, DB_NAME, DB_HOST))->connect();
-$oauth = new Oauth();
-$addOn = new AddOn();
+require_once 'php.config.inc.php';
 
 // Start Class Database
 Class Database {
@@ -99,5 +96,7 @@ class Oauth {
 }
 // End Class Oauth
 
+// Start Class Authenticate
 
+// End Class Authenticate
 ?>

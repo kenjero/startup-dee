@@ -17,6 +17,8 @@
 
 namespace Google\Service\Aiplatform\Resource;
 
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1BatchCancelPipelineJobsRequest;
+use Google\Service\Aiplatform\GoogleCloudAiplatformV1BatchDeletePipelineJobsRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1CancelPipelineJobRequest;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1ListPipelineJobsResponse;
 use Google\Service\Aiplatform\GoogleCloudAiplatformV1PipelineJob;
@@ -33,6 +35,45 @@ use Google\Service\Aiplatform\GoogleProtobufEmpty;
  */
 class ProjectsLocationsPipelineJobs extends \Google\Service\Resource
 {
+  /**
+   * Batch cancel PipelineJobs. Firstly the server will check if all the jobs are
+   * in non-terminal states, and skip the jobs that are already terminated. If the
+   * operation failed, none of the pipeline jobs are cancelled. The server will
+   * poll the states of all the pipeline jobs periodically to check the
+   * cancellation status. This operation will return an LRO.
+   * (pipelineJobs.batchCancel)
+   *
+   * @param string $parent Required. The name of the PipelineJobs' parent
+   * resource. Format: `projects/{project}/locations/{location}`
+   * @param GoogleCloudAiplatformV1BatchCancelPipelineJobsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function batchCancel($parent, GoogleCloudAiplatformV1BatchCancelPipelineJobsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchCancel', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Batch deletes PipelineJobs The Operation is atomic. If it fails, none of the
+   * PipelineJobs are deleted. If it succeeds, all of the PipelineJobs are
+   * deleted. (pipelineJobs.batchDelete)
+   *
+   * @param string $parent Required. The name of the PipelineJobs' parent
+   * resource. Format: `projects/{project}/locations/{location}`
+   * @param GoogleCloudAiplatformV1BatchDeletePipelineJobsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function batchDelete($parent, GoogleCloudAiplatformV1BatchDeletePipelineJobsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchDelete', [$params], GoogleLongrunningOperation::class);
+  }
   /**
    * Cancels a PipelineJob. Starts asynchronous cancellation on the PipelineJob.
    * The server makes a best effort to cancel the pipeline, but success is not
@@ -69,9 +110,6 @@ class ProjectsLocationsPipelineJobs extends \Google\Service\Resource
    * become the final component of the PipelineJob name. If not provided, an ID
    * will be automatically generated. This value should be less than 128
    * characters, and valid characters are `/a-z-/`.
-   * @opt_param bool preflightValidations Optional. Whether to do component level
-   * validations before job creation. Currently we only support Google First Party
-   * Component/Pipelines.
    * @return GoogleCloudAiplatformV1PipelineJob
    * @throws \Google\Service\Exception
    */

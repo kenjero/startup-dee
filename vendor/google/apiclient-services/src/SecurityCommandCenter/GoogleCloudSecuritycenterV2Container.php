@@ -28,10 +28,6 @@ class GoogleCloudSecuritycenterV2Container extends \Google\Collection
    * @var string
    */
   public $imageId;
-  /**
-   * @var GoogleCloudSecuritycenterV2Label[]
-   */
-  public $labels;
   protected $labelsType = GoogleCloudSecuritycenterV2Label::class;
   protected $labelsDataType = 'array';
   /**

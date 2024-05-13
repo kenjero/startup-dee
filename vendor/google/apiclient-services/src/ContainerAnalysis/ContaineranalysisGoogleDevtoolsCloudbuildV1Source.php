@@ -19,34 +19,16 @@ namespace Google\Service\ContainerAnalysis;
 
 class ContaineranalysisGoogleDevtoolsCloudbuildV1Source extends \Google\Model
 {
-  /**
-   * @var ContaineranalysisGoogleDevtoolsCloudbuildV1ConnectedRepository
-   */
-  public $connectedRepository;
   protected $connectedRepositoryType = ContaineranalysisGoogleDevtoolsCloudbuildV1ConnectedRepository::class;
   protected $connectedRepositoryDataType = '';
-  /**
-   * @var ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource
-   */
-  public $gitSource;
+  protected $developerConnectConfigType = ContaineranalysisGoogleDevtoolsCloudbuildV1DeveloperConnectConfig::class;
+  protected $developerConnectConfigDataType = '';
   protected $gitSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource::class;
   protected $gitSourceDataType = '';
-  /**
-   * @var ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource
-   */
-  public $repoSource;
   protected $repoSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource::class;
   protected $repoSourceDataType = '';
-  /**
-   * @var ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource
-   */
-  public $storageSource;
   protected $storageSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource::class;
   protected $storageSourceDataType = '';
-  /**
-   * @var ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSourceManifest
-   */
-  public $storageSourceManifest;
   protected $storageSourceManifestType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSourceManifest::class;
   protected $storageSourceManifestDataType = '';
 
@@ -63,6 +45,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Source extends \Google\Model
   public function getConnectedRepository()
   {
     return $this->connectedRepository;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1DeveloperConnectConfig
+   */
+  public function setDeveloperConnectConfig(ContaineranalysisGoogleDevtoolsCloudbuildV1DeveloperConnectConfig $developerConnectConfig)
+  {
+    $this->developerConnectConfig = $developerConnectConfig;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1DeveloperConnectConfig
+   */
+  public function getDeveloperConnectConfig()
+  {
+    return $this->developerConnectConfig;
   }
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource

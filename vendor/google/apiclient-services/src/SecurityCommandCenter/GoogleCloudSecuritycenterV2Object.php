@@ -20,10 +20,6 @@ namespace Google\Service\SecurityCommandCenter;
 class GoogleCloudSecuritycenterV2Object extends \Google\Collection
 {
   protected $collection_key = 'containers';
-  /**
-   * @var GoogleCloudSecuritycenterV2Container[]
-   */
-  public $containers;
   protected $containersType = GoogleCloudSecuritycenterV2Container::class;
   protected $containersDataType = 'array';
   /**
