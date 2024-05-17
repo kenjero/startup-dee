@@ -8,7 +8,7 @@
             <div class="card pc-user-card">
                 <div class="card-body">
                     <div class="nav-user-image"><a data-bs-toggle="collapse" href="#navuserlink"><img
-                                src="assets/images/user/avatar-1.jpg" alt="user-image"
+                                src="<?=$_SESSION['user_info']['picture']?>" alt="user-image"
                                 class="user-avtar rounded-circle"></a></div>
                     <div class="pc-user-collpsed collapse" id="navuserlink">
                         <h4 class="mb-0">Jonh Smith</h4><span>Administrator</span>

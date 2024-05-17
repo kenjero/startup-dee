@@ -61,11 +61,21 @@ Class AddOn {
         return $randomString;
     }
 
+    public function generateRandomStringUpper($length) {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 }
 // End Class AddOn
 
 // Start Class Oauth
-class Oauth {
+class Authentication {
     private $db;
     private $addOn;
 
@@ -75,28 +85,86 @@ class Oauth {
     }
 
     // ============================== //
-    // Function - Auth Google //
+    // Function - Check Login //
     // ============================== //
-    public function auth_google() {
-        try {
-            // ทำการเลือกข้อมูลจากตาราง auth_google
-            $sql = "SELECT * FROM `auth_google` WHERE `id` = :id";
+
+    public function check_pageLogin() {
+
+        if (isset($_SESSION['user_info']['member_id']) && isset($_SESSION['user_info']['token'])) {
+
+            $member_id = $_SESSION['user_info']['member_id'];
+            $token = $_SESSION['user_info']['token'];
+
+            // ทำการเลือกข้อมูลจากตาราง auth_member
+            $sql = "SELECT * FROM `auth_member` WHERE `token` = :token AND `id` = :id";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(":id", 1, PDO::PARAM_INT);
+    
+            $stmt->bindValue(":id", $member_id, PDO::PARAM_INT);
+            $stmt->bindValue(":token", $token, PDO::PARAM_STR);
             $stmt->execute();
+    
             $result = $this->addOn->useFetchAll($stmt);
-            return $result;
             
-        } catch(PDOException $e) {
-            // จัดการข้อผิดพลาดเมื่อส่งคำสั่ง SQL ล้มเหลว
-            echo "การเรียกข้อมูลผู้ใช้ล้มเหลว: " . $e->getMessage();
-            return null;
+            // ตรวจสอบผลลัพธ์และเปลี่ยนเส้นทาง
+            if ($result === null || empty($result)) {
+                header("Refresh:0; url=logout.php");
+                exit;
+            }else{
+                header("Refresh:0; url=index");
+                exit;
+            }
+
+        } 
+    }
+
+    public function check_indexLogin() {
+
+        if (isset($_SESSION['user_info']['member_id']) && isset($_SESSION['user_info']['token'])) {
+
+            $member_id = $_SESSION['user_info']['member_id'];
+            $token = $_SESSION['user_info']['token'];
+
+            // ทำการเลือกข้อมูลจากตาราง auth_member
+            $sql = "SELECT * FROM `auth_member` WHERE `token` = :token AND `id` = :id";
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindValue(":id", $member_id, PDO::PARAM_INT);
+            $stmt->bindValue(":token", $token, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $result = $this->addOn->useFetchAll($stmt);
+            
+            // ตรวจสอบผลลัพธ์และเปลี่ยนเส้นทาง
+            if ($result === null || empty($result)) {
+                header("Refresh:0; url=logout.php");
+                exit;
+            }
+            
+        } else{
+            header("Refresh:0; url=logout.php");
+            exit;
         }
     }
+
+
+    // ============================== //
+    // Function - Regiter User //
+    // ============================== //
+
+    public function check_EmailRegiter($email) {
+
+        // ทำการเลือกข้อมูลจากตาราง auth_member
+        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $this->addOn->useFetchAll($stmt);
+
+        return $result;
+
+    }
+
 }
 // End Class Oauth
 
-// Start Class Authenticate
-
-// End Class Authenticate
 ?>

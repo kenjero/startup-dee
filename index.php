@@ -1,7 +1,10 @@
 <?PHP
-  require_once 'functions/php.config.inc.php';
-  require_once 'functions/php.functions.php';
-  require_once 'vendor/autoload.php';
+    require_once 'functions/php.config.inc.php';
+    require_once 'functions/php.functions.php';
+    require_once 'vendor/autoload.php';
+    
+    $auth = new Authentication();
+    $result = $auth->check_indexLogin();
 ?>
 
 <!DOCTYPE html>
@@ -69,14 +72,10 @@
     <!-- [ Pre-loader ] End -->
     <?PHP
 
-    if (!isset($_SESSION['logged_in'])) {
-        include_once 'pages/login/login.php';
-    } else {
-        include_once "component/header/header.php";
-        include_once "component/sidebar/sidebar.php";
-        include_once "pages/main.php";
-        include_once "component/footer/footer.php";
-    }
+    include_once "component/header/header.php";
+    include_once "component/sidebar/sidebar.php";
+    include_once "pages/main.php";
+    include_once "component/footer/footer.php";
 
     ?>
     <!-- Required Js -->

@@ -57,7 +57,7 @@
                                     <li class="list-group-item">
                                         <p class="text-span">Today</p>
                                         <div class="d-flex">
-                                            <div class="flex-shrink-0"><img src="assets/images/user/avatar-2.jpg"
+                                            <div class="flex-shrink-0"><img src="<?=$_SESSION['user_info']['picture']?>"
                                                     alt="user-image" class="user-avtar avtar avtar-s"></div>
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex">
@@ -146,7 +146,7 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="d-flex">
-                                            <div class="flex-shrink-0"><img src="assets/images/user/avatar-2.jpg"
+                                            <div class="flex-shrink-0"><img src="<?=$_SESSION['user_info']['picture']?>"
                                                     alt="user-image" class="user-avtar avtar avtar-s"></div>
                                             <div class="flex-grow-1 ms-3">
                                                 <div class="d-flex">
@@ -204,7 +204,7 @@
                     <li class="dropdown pc-h-item header-user-profile"><a
                             class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                             role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false"><img
-                                src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar"></a>
+                                src="<?=$_SESSION['user_info']['picture']?>" alt="user-image" class="user-avtar"></a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header d-flex align-items-center justify-content-between">
                                 <h4 class="m-0">Profile</h4>
@@ -215,7 +215,7 @@
                                     <ul class="list-group list-group-flush w-100">
                                         <li class="list-group-item">
                                             <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0"><img src="assets/images/user/avatar-2.jpg"
+                                                <div class="flex-shrink-0"><img src="<?=$_SESSION['user_info']['picture']?>"
                                                         alt="user-image" class="wid-50 rounded-circle"></div>
                                                 <div class="flex-grow-1 mx-3">
                                                     <h5 class="mb-0">Carson Darrin</h5><a class="link-primary"
@@ -229,9 +229,9 @@
                                                 class="dropdown-item"><span class="d-flex align-items-center"><i
                                                         class="ph-duotone ph-envelope-simple"></i> <span>Recently
                                                         mail</span></span>
-                                                <div class="user-group"><img src="assets/images/user/avatar-1.jpg"
+                                                <div class="user-group"><img <?=$_SESSION['user_info']['picture']?>
                                                         alt="user-image" class="avtar"> <img
-                                                        src="assets/images/user/avatar-2.jpg" alt="user-image"
+                                                        src="<?=$_SESSION['user_info']['picture']?>" alt="user-image"
                                                         class="avtar"> <img src="assets/images/user/avatar-3.jpg"
                                                         alt="user-image" class="avtar"></div>
                                             </a><a href="#" class="dropdown-item"><span
@@ -282,7 +282,7 @@
                                         <li class="list-group-item"><a href="#" class="dropdown-item"><span
                                                     class="d-flex align-items-center"><i
                                                         class="ph-duotone ph-plus-circle"></i> <span>Add account</span>
-                                                </span></a><a href="#" class="dropdown-item"><span
+                                                </span></a><a href="logout.php" class="dropdown-item"><span
                                                     class="d-flex align-items-center"><i
                                                         class="ph-duotone ph-power"></i> <span>Logout</span></span></a>
                                         </li>

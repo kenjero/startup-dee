@@ -38,6 +38,16 @@
     define("BACK_END_IMAGE_PRODUCT_ROOt", "img");
 
     //////////////////////////////////
+    /////////// phpMailer ////////////
+    //////////////////////////////////
+
+    define("MAIL_SMTP_SERVER", 'smtp.gmail.com');
+    define("MAIL_USERNAME", 'kenjerorom01@gmail.com');
+    define("MAIL_PASSWORD", 't2375584');
+    define("MAIL_PORT_TCP", '465');
+    
+
+    //////////////////////////////////
     /////////// API Google ///////////
     //////////////////////////////////
 
