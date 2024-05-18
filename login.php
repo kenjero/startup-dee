@@ -111,7 +111,7 @@
 
                         <div class="saprator my-3"><span>OR</span></div>
                         <div class="row g-2">
-                            <div class="col-4">
+                            <div class="col-12">
                                 <?PHP
                                     $client = new Google\Client();
                                     $client->setClientId(API_GOOGLE_CLIENT_ID);
@@ -128,14 +128,6 @@
                                         <img src="assets/images/authentication/google.png" alt="img">
                                         <span class="d-none d-sm-inline-block">Google</span>
                                     </button>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="d-grid"><button type="button" class="btn mt-2 btn-light text-muted"><img src="assets/images/authentication/tiktok.png" alt="img"> <span class="d-none d-sm-inline-block">TikTok</span></button>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="d-grid"><button type="button" class="btn mt-2 btn-light text-muted"><img src="assets/images/authentication/line.png" alt="img"> <span class="d-none d-sm-inline-block">Line</span></button>
                                 </div>
                             </div>
                         </div>

@@ -14,11 +14,11 @@ Class Database {
     private $host;
 
     // กำหนดค่าเริ่มต้นในการเชื่อมต่อฐานข้อมูล
-    public function __construct($user, $password, $database, $host) {
-        $this->user     = $user;
-        $this->password = $password;
-        $this->database = $database;
-        $this->host     = $host;
+    public function __construct() {
+        $this->user     = DB_USER;
+        $this->password = DB_PASS;
+        $this->database = DB_NAME;
+        $this->host     = DB_HOST;
     }
 
     // เชื่อมต่อฐานข้อมูล
@@ -80,7 +80,7 @@ class Authentication {
     private $addOn;
 
     public function __construct() {
-        $this->db = (new Database(DB_USER, DB_PASS, DB_NAME, DB_HOST))->connect();
+        $this->db = (new Database())->connect();
         $this->addOn = new AddOn();
     }
 
@@ -151,12 +151,13 @@ class Authentication {
     // Function - Regiter User //
     // ============================== //
 
-    public function check_EmailRegiter($email) {
+    public function check_EmailRegiter($email,$verifiedEmail) {
 
         // ทำการเลือกข้อมูลจากตาราง auth_member
-        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email";
+        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND verifiedEmail = :verifiedEmail";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
+        $stmt->bindValue(":verifiedEmail", $verifiedEmail, PDO::PARAM_INT);
         $stmt->execute();
         $result = $this->addOn->useFetchAll($stmt);
 
@@ -164,7 +165,40 @@ class Authentication {
 
     }
 
+    public function check_OTP($dataArray) {
+
+        // ทำการเลือกข้อมูลจากตาราง auth_member
+        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND `OTP` = :OTP";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":email", $dataArray['email'], PDO::PARAM_STR);
+        $stmt->bindValue(":OTP", $dataArray['otp'], PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $this->addOn->useFetchAll($stmt);
+
+        return $result;
+
+    }
+    
+
+    function canSendEmail($email) {
+        $sql = "SELECT last_sent_time FROM auth_member WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        $lastSent = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($lastSent && (time() - strtotime($lastSent['last_sent_time']) < 60)) {
+            // หากเวลาที่ส่งอีเมลครั้งล่าสุดน้อยกว่า 60 วินาที
+            return false;
+        }
+        return true;
+    }
+    
+    function updateLastSentTime($email) {
+        $sql = "UPDATE auth_member SET last_sent_time = NOW() WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':email' => $email]);
+    }
+
 }
 // End Class Oauth
-
 ?>

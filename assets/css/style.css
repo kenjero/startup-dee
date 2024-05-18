@@ -3075,6 +3075,15 @@ textarea.is-valid.dataTable-input {
 .input-group > .form-floating:not(:focus-within).is-valid {
   z-index: 3;
 }
+ 
+.is-perload {
+  border-color: #696969;
+  padding-right: calc(1.5em + 1.6rem);
+  background-image: url("../../assets/images/textbox/preload.gif");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.4rem) center;
+  background-size: calc(0.75em + 0.8rem) calc(0.75em + 0.8rem);
+}
 
 .invalid-feedback {
   display: none;

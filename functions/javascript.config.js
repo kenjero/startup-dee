@@ -5,9 +5,6 @@
 var HOST_NAME_URL        = "http://localhost/startup-dee/";
 var JSON_HOST_NAME_URL   = "http://localhost/startup-dee/pages/";
 
-
-
-
 //////////////////////////////
 ////////// Notifier //////////
 //////////////////////////////

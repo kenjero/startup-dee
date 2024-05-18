@@ -3,7 +3,7 @@
     require_once '../../functions/php.functions.php';
     require_once '../../vendor/autoload.php';
 
-    $db = (new Database(DB_USER, DB_PASS, DB_NAME, DB_HOST))->connect();
+    $db = (new Database())->connect();
 ?>
 
 <?PHP

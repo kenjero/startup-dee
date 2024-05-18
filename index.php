@@ -71,9 +71,8 @@
     </div>
     <!-- [ Pre-loader ] End -->
     <?PHP
-
-    include_once "component/header/header.php";
     include_once "component/sidebar/sidebar.php";
+    include_once "component/header/header.php";
     include_once "pages/main.php";
     include_once "component/footer/footer.php";
 

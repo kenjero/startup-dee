@@ -33,13 +33,13 @@ function toggleConfirmPassword() {
 }
 
 function postLogin() {
-    var username = $("#username").val();
+    var email    = $("#email").val();
     var password = $("#password").val();
 
     var formData = {
-        username  : username,
+        email     : email,
         password  : password,
-        method    : "authenticate",
+        method    : "postLogin",
     };
     
     $.ajax({
@@ -48,14 +48,40 @@ function postLogin() {
         data: formData,
         success: function (response) {
             var jsonData = JSON.parse(response);
-            console.log(jsonData); 
 
-            if (jsonData.status === 'success') {
-                notifier.show('Success !', jsonData.message, 'success', '', 1500); 
-                window.location.href = 'index';
+            if (jsonData.status === 'failed') {
+                Swal.fire({
+                    title: 'Error!',
+                    text: jsonData.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
             } else {
-                notifier.show('Error !', jsonData.message, 'danger', NOTIFIER_IMAGE_DANGER, 3000);
+                window.location.href = 'index';
             }
+        } 
+    });
+}
+
+function changeLoginAccount(){
+    
+    var loginHeader = $("#loginHeader");
+    var loginBody   = $("#loginBody");
+    var loginFooter = $("#loginFooter");
+
+    var formData = {
+        method    : "changeLoginAccount",
+    };
+    
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+            loginHeader.html(jsonData.loginHeader);
+            loginBody.html(jsonData.loginBody);
+            loginFooter.html(jsonData.loginFooter);
         } 
     });
 }
@@ -88,9 +114,7 @@ function changeCreateAccount(){
 
 function requestOTP(){
     var email           = $("#email").val();
-    var otp             = $("#otp").val();
-    var password        = $("#password").val();
-    var confirmPassword = $("#confirmPassword").val();
+    var btnOTP          = $("#btnOTP");
 
     if(email !== ''){
         var formData = {
@@ -104,21 +128,281 @@ function requestOTP(){
             data: formData,
             success: function (response) {
                 var jsonData = JSON.parse(response);
-                
+
+                if(jsonData.status === "too_frequent"){
+                    Swal.fire({
+                        title: 'Warning! Wait a Moment',
+                        text: 'You have sent an email recently. Please wait a minute before trying again.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-warning'
+                        },
+                        buttonsStyling: false,
+                    });
+                }
                 if(jsonData.status === "success"){
-                    alert('ส่งเมลสำเร็จ');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'An OTP has been sent to your email. Please check your inbox to verify your account.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-success'
+                        },
+                        buttonsStyling: false,
+                    });
+                }
+                if(jsonData.status === "failed"){
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was a problem sending the email.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false,
+                    });
                 }
                 if(jsonData.status === "repeatedly"){
-                    alert('เมลซ้ำ');
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'This email has already been used.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false,
+                    });
                 }
             } 
         });
+
+        // Disable button and start countdown
+        btnOTP.prop('disabled', true);
+        var counter = 60;
+        var interval = setInterval(function() {
+            counter--;
+            // Display the countdown on the button
+            btnOTP.text('Wait ' + counter + ' seconds');
+            if (counter <= 0) {
+                clearInterval(interval);
+                btnOTP.text('Send OTP');
+                btnOTP.prop('disabled', false);
+            }
+        }, 1000);
+
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'The email field is not blank.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
-    
-    
-    
 }
 
+function checkEmail(){
+
+    var email = $("#email").val();
+    var otp   = $("#otp").val();
+
+    var formData = {
+        email   : email,
+        method  : "checkEmail",
+    };
+
+    // Email validation regex
+    var emailRegex = regexEmail();
+
+    if (!emailRegex.test(email)) {
+        $("#email").removeClass("is-valid").addClass("is-invalid");
+        return;
+    } else {
+        $("#email").removeClass("is-invalid").addClass("is-valid");
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+
+            $("#email").removeClass("is-invalid").removeClass("is-valid");
+            $("#email").addClass("is-perload");
+            
+            setTimeout(function() {
+                $("#email").removeClass("is-preload");
+                if (jsonData.status === "valid") {
+                    $("#email").removeClass("is-invalid").addClass("is-valid");
+                } else {
+                    $("#email").removeClass("is-valid").addClass("is-invalid");
+                }
+
+                if(otp !== "") {
+                    checkOTP();
+                }
+
+            }, 500);
+        },
+    });
+};
+
+
+function checkOTP(){
+
+    var email = $("#email").val();
+    var otp   = $("#otp").val();
+
+    var formData = {
+        email   : email,
+        otp     : otp,
+        method  : "checkOTP",
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+            $("#otp").removeClass("is-invalid").removeClass("is-valid");
+            $("#otp").addClass("is-perload");
+            
+            setTimeout(function() {
+                $("#otp").removeClass("is-preload");
+                if (jsonData.status === "valid") {
+                    $("#otp").removeClass("is-invalid").addClass("is-valid");
+                    $("#btnOTP").prop('disabled', true);
+                } else {
+                    $("#otp").removeClass("is-valid").addClass("is-invalid");
+                    $("#btnOTP").prop('disabled', false);
+                }
+            }, 500);
+        },
+    });
+};
+
+function validatePassword() {
+    var password = $("#password").val();
+    var confirmPassword = $("#confirmPassword").val();
+    var passwordRegex = regexPassword();
+    
+    setTimeout(function() {
+        $("#password").removeClass("is-preload");
+
+        if (password === "") {
+            $("#password").removeClass("is-invalid").removeClass("is-valid").removeClass("is-preload");
+        } else if (passwordRegex.test(password)) {
+            $("#password").removeClass("is-invalid").addClass("is-valid");
+        } else {
+            $("#password").removeClass("is-valid").addClass("is-invalid");
+        }
+
+    }, 500);
+
+    if(confirmPassword !== "") {
+        validateConfirmPassword();
+    }
+
+}
+
+function validateConfirmPassword() {
+    var password = $("#password").val();
+    var confirmPassword = $("#confirmPassword").val();
+
+    setTimeout(function() {
+        $("#confirmPassword").removeClass("is-preload");
+
+        if (confirmPassword === "") {
+            $("#confirmPassword").removeClass("is-invalid").removeClass("is-valid").removeClass("is-preload");
+        } else if (password === confirmPassword) {
+            $("#confirmPassword").removeClass("is-invalid").addClass("is-valid");
+        } else {
+            $("#confirmPassword").removeClass("is-valid").addClass("is-invalid");
+        }
+
+    }, 500);
+}
+
+
+function postRegister(){
+
+    var email = $("#email").val();
+    var otp   = $("#otp").val();
+    var password = $("#password").val();
+    var confirmPassword = $("#confirmPassword").val();
+
+    var passwordRegex = regexPassword();
+    var emailRegex = regexEmail();
+
+    if (!emailRegex.test(email) || email  === "") {
+        $("#email").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    if (otp === "") {
+        $("#otp").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    if (!passwordRegex.test(password) || password  === "") {
+        $("#password").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    if (!passwordRegex.test(confirmPassword) || confirmPassword  === "") {
+        $("#confirmPassword").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        $("#password").removeClass("is-valid").addClass("is-invalid");
+        $("#confirmPassword").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    var formData = {
+        email    : email,
+        otp      : otp,
+        password : confirmPassword,
+        method  : "postRegister",
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+
+            if(jsonData.status === "success"){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Registration successful.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                });
+
+                changeLoginAccount();
+
+            }else{
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something went wrong during registration.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+            }
+        },
+    });
+
+
+}
 
 ///////////////////////////////
 //////// googleAuthAPI ////////
