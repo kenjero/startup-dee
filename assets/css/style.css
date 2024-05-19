@@ -2307,10 +2307,11 @@ progress {
   color: #BEC8D0;
   opacity: 1;
 }
+
 .form-control:disabled, .datatable-input:disabled, .custom-select:disabled,
 .dataTable-selector:disabled,
 .dataTable-input:disabled {
-  background-color: #F3F5F7;
+  background-color: #2b323a;
   opacity: 1;
 }
 .form-control::file-selector-button, .datatable-input::file-selector-button, .custom-select::file-selector-button,
@@ -8621,7 +8622,7 @@ textarea.is-invalid.dataTable-input {
 }
 [data-pc-direction=ltr] .text-muted {
   --bs-text-opacity: 1;
-  color: var(--bs-secondary-color) !important;
+  /* color: var(--bs-secondary-color) !important; */ 
 }
 [data-pc-direction=ltr] .text-black-50 {
   --bs-text-opacity: 1;

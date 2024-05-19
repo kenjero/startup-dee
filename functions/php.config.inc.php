@@ -56,15 +56,23 @@
     define("API_GOOGLE_CLIENT_ID"       ,"381615817828-01u4v5a4qvmqf2ar879lqaqrkk7ghn7j.apps.googleusercontent.com"); // ClientId API GOOGLE
     define("API_GOOGLE_CLIENT_SECRET"   ,"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"); // ClientSecret API GOOGLE
     define("API_GOOGLE_DRIVE_FOLDER_ID" ,"13hjPbMtyNw4s_6u6YhqVctDZnyHzwJXb"); //ID โฟลเดอร์ Google Drive
-    define("GOOGLE_CALLBACK_URL"        , HOST_NAME_URL."callbacks/google/callback_google.php");
+    define("API_GOOGLE_CALLBACK_URL"        , HOST_NAME_URL."callbacks/google/callback_google.php");
 
     //////////////////////////////////
     //////////// API Line ////////////
     //////////////////////////////////
 
-    define("LINE_CHANNEL_ID"        ,"2003369350");
-    define("LINE_CHANNEL_SECRET"    ,"c5be5da90cd1ef56a50efe06050809b6");
-    define("LINE_CALLBACK_URL"  , HOST_NAME_URL."callbacks/line/callback_line.php");
+    define("API_LINE_CHANNEL_ID"        ,"2003369350");
+    define("API_LINE_CHANNEL_SECRET"    ,"c5be5da90cd1ef56a50efe06050809b6");
+    define("API_LINE_CALLBACK_URL"  , HOST_NAME_URL."callbacks/line/callback_line.php");
 
+    //////////////////////////////////
+    /////////// API TikTok ///////////
+    //////////////////////////////////
 
+    // API TikTok
+    define("API_TIKTOK_CLIENT_KEY"       ,"awhbsal49hmgtpwt"); // ClientId API GOOGLE
+    define("API_TIKTOK_CLIENT_SECRET"   ,"s0nLM0zKBzmPfZqhNmdIpvUNIkVYhh6Y"); // ClientSecret API GOOGLE
+    define("API_TIKTOK_DRIVE_FOLDER_ID" ,"13hjPbMtyNw4s_6u6YhqVctDZnyHzwJXb"); //ID โฟลเดอร์ Google Drive
+    define("API_TIKTOK_CALLBACK_URL"        , HOST_NAME_URL."callbacks/tiktok/callback_tiktok.php");
 ?>

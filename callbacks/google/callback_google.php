@@ -10,7 +10,7 @@
     $client = new Google\Client();
     $client->setClientId(API_GOOGLE_CLIENT_ID);
     $client->setClientSecret(API_GOOGLE_CLIENT_SECRET);
-    $client->setRedirectUri(GOOGLE_CALLBACK_URL);
+    $client->setRedirectUri(API_GOOGLE_CALLBACK_URL);
     $client->setScopes(['email', 'profile']);
     $client->setAccessType('offline');
     $client->setApprovalPrompt('force');
@@ -73,6 +73,7 @@
             
             $dataArray = [
                 "token"         => $token, // เก็บเฉพาะ access token
+                "type"          => "GG",
                 "member_id"     => $memberId,
                 "email"         => $getEmail,
                 "name"          => $userInfo->getname(),
@@ -96,17 +97,17 @@
             // อัปเดต token ในตาราง auth_google
             $sqlAuthGoogle = "UPDATE `auth_google` SET `token` = :token WHERE `email` = :email";
             $stmtGoogle = $db->prepare($sqlAuthGoogle);
-            $stmtGoogle->bindParam(':token', $token, PDO::PARAM_STR);
-            $stmtGoogle->bindParam(':email', $getEmail, PDO::PARAM_STR);
+            $stmtGoogle->bindValue(':token', $token, PDO::PARAM_STR);
+            $stmtGoogle->bindValue(':email', $getEmail, PDO::PARAM_STR);
             $stmtGoogle->execute();
 
             // อัปเดต token และ status ในตาราง auth_member
-            $sqlAuthMember = "UPDATE `auth_member` SET `token` = :token, `status` = :status WHERE `email` = :email";
+            $sqlAuthMember = "UPDATE `auth_member` SET `token` = :token, `online` = :online WHERE `email` = :email  AND `type` = :type ";
             $stmtMember = $db->prepare($sqlAuthMember);
-            $stmtMember->bindParam(':token', $token, PDO::PARAM_STR);
-            $status = 1;
-            $stmtMember->bindParam(':status', $status, PDO::PARAM_INT);
-            $stmtMember->bindParam(':email', $getEmail, PDO::PARAM_STR);
+            $stmtMember->bindValue(':token' , $token    , PDO::PARAM_STR);
+            $stmtMember->bindValue(':type'  , "GG"      , PDO::PARAM_STR);
+            $stmtMember->bindValue(':online', 1         , PDO::PARAM_INT);
+            $stmtMember->bindValue(':email' , $getEmail , PDO::PARAM_STR);
             $stmtMember->execute();
         }
         $sql = "SELECT am.* , ag.id AS google_id
@@ -115,7 +116,7 @@
                 WHERE `am`.`email` = :email AND `am`.`password` = ''";
 
         $statement = $db->prepare($sql);
-        $statement->bindParam(':email', $getEmail, PDO::PARAM_STR);
+        $statement->bindValue(':email', $getEmail, PDO::PARAM_STR);
         $statement->execute();
 
         $sql_user = $statement->fetch(PDO::FETCH_ASSOC);
@@ -130,6 +131,7 @@
                                             'picture'   => $sql_user['picture'],
                                             'name'      => $sql_user['name'],
                                             'google_id' => $sql_user['google_id'],
+                                            'type'      => $sql_user['type'],
                                         ];
         }
 

@@ -52,22 +52,105 @@ Class AddOn {
     }
 
     public function generateRandomString($length) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
+        $numbers    = '0123456789';
+        $lowercase  = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $special    = '!@#$%&*';
+    
+        $allCharacters = $numbers . $lowercase . $uppercase . $special;
+        $allCharactersLength = strlen($allCharacters);
+    
+        // สร้างสตริงที่มีอย่างน้อยหนึ่งตัวจากแต่ละกลุ่ม
         $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
+        $randomString .= $lowercase[rand(0, strlen($lowercase) - 1)];
+        $randomString .= $uppercase[rand(0, strlen($uppercase) - 1)];
+        $randomString .= $special[rand(0, strlen($special) - 1)];
+    
+        // สร้างสตริงส่วนที่เหลือ
+        for ($i = 4; $i < $length; $i++) {
+            $randomString .= $allCharacters[rand(0, $allCharactersLength - 1)];
         }
+    
+        // สับเปลี่ยนสตริงเพื่อไม่ให้ตัวอักษรที่บังคับอยู่ในตำแหน่งเดิมเสมอ
+        $randomString = str_shuffle($randomString);
+    
+        return $randomString;
+    }
+
+    public function generateRandomStringLowerUpper($length) {
+        $numbers    = '0123456789';
+        $lowercase  = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    
+        $allCharacters = $numbers . $lowercase . $uppercase;
+        $allCharactersLength = strlen($allCharacters);
+    
+        // สร้างสตริงที่มีอย่างน้อยหนึ่งตัวจากแต่ละกลุ่ม
+        $randomString = '';
+        $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
+        $randomString .= $lowercase[rand(0, strlen($lowercase) - 1)];
+        $randomString .= $uppercase[rand(0, strlen($uppercase) - 1)];
+    
+        // สร้างสตริงส่วนที่เหลือ
+        for ($i = 3; $i < $length; $i++) {
+            $randomString .= $allCharacters[rand(0, $allCharactersLength - 1)];
+        }
+    
+        // สับเปลี่ยนสตริงเพื่อไม่ให้ตัวอักษรที่บังคับอยู่ในตำแหน่งเดิมเสมอ
+        $randomString = str_shuffle($randomString);
+    
         return $randomString;
     }
 
     public function generateRandomStringUpper($length) {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
+        $numbers = '0123456789';
+        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $allCharacters = $numbers . $uppercase;
+        
+        $numbersLength = strlen($numbers);
+        $lettersLength = strlen($uppercase);
+        $allCharactersLength = strlen($allCharacters);
+        
         $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $randomString .= $numbers[rand(0, $numbersLength - 1)];   // เพิ่มตัวเลขอย่างน้อยหนึ่งตัว
+        $randomString .= $uppercase[rand(0, $lettersLength - 1)]; // เพิ่มตัวอักษรอย่างน้อยหนึ่งตัว
+    
+        // สร้างสตริงส่วนที่เหลือ
+        for ($i = 2; $i < $length; $i++) {
+            $randomString .= $allCharacters[rand(0, $allCharactersLength - 1)];
         }
+    
+        // สับเปลี่ยนสตริงเพื่อไม่ให้ตัวเลขและตัวอักษรที่บังคับอยู่ในตำแหน่งเดิมเสมอ
+        $randomString = str_shuffle($randomString);
+    
+        return $randomString;
+    }
+
+    public function generateRandomToken($length) {
+        $numbers    = '0123456789';
+        $lowercase  = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $special    = '-_.';
+    
+        $allCharacters = $numbers . $lowercase . $uppercase . $special;
+        $allCharactersLength = strlen($allCharacters);
+    
+        // สร้างสตริงที่มีอย่างน้อยหนึ่งตัวจากแต่ละกลุ่ม
+        $randomString = '';
+        $randomString .= $numbers[rand(0, strlen($numbers) - 1)];
+        $randomString .= $lowercase[rand(0, strlen($lowercase) - 1)];
+        $randomString .= $uppercase[rand(0, strlen($uppercase) - 1)];
+        $randomString .= $special[rand(0, strlen($special) - 1)];
+    
+        // สร้างสตริงส่วนที่เหลือ
+        for ($i = 4; $i < $length; $i++) {
+            $randomString .= $allCharacters[rand(0, $allCharactersLength - 1)];
+        }
+    
+        // สับเปลี่ยนสตริงเพื่อไม่ให้ตัวอักษรที่บังคับอยู่ในตำแหน่งเดิมเสมอ
+        $randomString = str_shuffle($randomString);
+    
         return $randomString;
     }
 
@@ -154,10 +237,11 @@ class Authentication {
     public function check_EmailRegiter($email,$verifiedEmail) {
 
         // ทำการเลือกข้อมูลจากตาราง auth_member
-        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND verifiedEmail = :verifiedEmail";
+        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND verifiedEmail = :verifiedEmail AND `type` = :type";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
-        $stmt->bindValue(":verifiedEmail", $verifiedEmail, PDO::PARAM_INT);
+        $stmt->bindValue(":email"         , $email         , PDO::PARAM_STR);
+        $stmt->bindValue(":verifiedEmail" , $verifiedEmail , PDO::PARAM_INT);
+        $stmt->bindValue(":type"          , "RG"           , PDO::PARAM_STR);
         $stmt->execute();
         $result = $this->addOn->useFetchAll($stmt);
 
@@ -168,10 +252,11 @@ class Authentication {
     public function check_OTP($dataArray) {
 
         // ทำการเลือกข้อมูลจากตาราง auth_member
-        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND `OTP` = :OTP";
+        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND `OTP` = :OTP AND `type` = :type";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(":email", $dataArray['email'], PDO::PARAM_STR);
-        $stmt->bindValue(":OTP", $dataArray['otp'], PDO::PARAM_STR);
+        $stmt->bindValue(":email" , $dataArray['email'] , PDO::PARAM_STR);
+        $stmt->bindValue(":OTP"   , $dataArray['otp']   , PDO::PARAM_STR);
+        $stmt->bindValue(":type"  , "RG"                , PDO::PARAM_STR);
         $stmt->execute();
         $result = $this->addOn->useFetchAll($stmt);
 
@@ -181,23 +266,51 @@ class Authentication {
     
 
     function canSendEmail($email) {
-        $sql = "SELECT last_sent_time FROM auth_member WHERE email = :email";
+        $sql = "SELECT last_sent_time FROM auth_member WHERE email = :email AND `type` = :type";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':email' => $email]);
+        $stmt->bindValue(":email" , $email , PDO::PARAM_STR);
+        $stmt->bindValue(":type"  , "RG"   , PDO::PARAM_STR);
+        $stmt->execute();
         $lastSent = $stmt->fetch(PDO::FETCH_ASSOC);
     
         if ($lastSent && (time() - strtotime($lastSent['last_sent_time']) < 60)) {
             // หากเวลาที่ส่งอีเมลครั้งล่าสุดน้อยกว่า 60 วินาที
             return false;
+        }else{
+            return true;
         }
-        return true;
+
+       
     }
     
     function updateLastSentTime($email) {
-        $sql = "UPDATE auth_member SET last_sent_time = NOW() WHERE email = :email";
+        $sql = "UPDATE auth_member SET last_sent_time = NOW() WHERE email = :email AND `type` = :type";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':email' => $email]);
+        $stmt->bindValue(":email" , $email , PDO::PARAM_STR);
+        $stmt->bindValue(":type"  , "RG"   , PDO::PARAM_STR);
+        $stmt->execute();
     }
+
+
+    public function check_ResetPassword($email,$code) {
+
+        $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND `codeChangPassword` = :code AND `type` = :type";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":email" , $email  , PDO::PARAM_STR);
+        $stmt->bindValue(":code"   , $code   , PDO::PARAM_STR);
+        $stmt->bindValue(":type"  , "RG"    , PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $this->addOn->useFetchAll($stmt);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 
 }
 // End Class Oauth

@@ -64,10 +64,6 @@ function postLogin() {
 }
 
 function changeLoginAccount(){
-    
-    var loginHeader = $("#loginHeader");
-    var loginBody   = $("#loginBody");
-    var loginFooter = $("#loginFooter");
 
     var formData = {
         method    : "changeLoginAccount",
@@ -79,21 +75,247 @@ function changeLoginAccount(){
         data: formData,
         success: function (response) {
             var jsonData = JSON.parse(response);
-            loginHeader.html(jsonData.loginHeader);
-            loginBody.html(jsonData.loginBody);
-            loginFooter.html(jsonData.loginFooter);
+            $("#loginHeader").html(jsonData.loginHeader);
+            $("#loginBody").html(jsonData.loginBody);
+            $("#loginFooter").html(jsonData.loginFooter);
+            $("#loginSocial").show();
         } 
     });
 }
+
+////////////////////////////////
+/////// Forgot  Password ///////
+////////////////////////////////
+function changeForgotPassword(){
+
+    var formData = {
+        method    : "changeForgotPassword",
+    };
+    
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+            $("#loginHeader").html(jsonData.loginHeader);
+            $("#loginBody").html(jsonData.loginBody);
+            $("#loginFooter").html(jsonData.loginFooter);
+            $("#loginSocial").hide();
+        } 
+    });
+}
+
+function checkEmailForgotPassword(){
+    var email = $("#email").val();
+
+    var formData = {
+        email   : email,
+        method  : "checkEmailForgotPassword",
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+
+            $("#email").removeClass("is-invalid").removeClass("is-valid");
+            $("#email").addClass("is-perload");
+            
+            setTimeout(function() {
+                $("#email").removeClass("is-preload");
+                if (jsonData.status === "valid") {
+                    $("#email").removeClass("is-invalid").addClass("is-valid");
+                } else {
+                    $("#email").removeClass("is-valid").addClass("is-invalid");
+                }
+            }, 500);
+        },
+    });
+}
+
+function postForgotPasswordt() {
+    var email           = $("#email").val();
+    var forgotPassword  = $("#forgotPassword");
+    
+
+    var formData = {
+        email     : email,
+        method    : "postForgotPasswordt",
+    };
+
+    // Disable button and start countdown
+    forgotPassword.prop('disabled', true);
+    forgotPassword.removeClass("btn-primary").addClass("btn-light-secondary");
+    var counter = 60;
+    var interval = setInterval(function() {
+        counter--;
+        // Display the countdown on the button
+        forgotPassword.text('Wait ' + counter + ' seconds');
+        if (counter <= 0) {
+            clearInterval(interval);
+            forgotPassword.text('Forgot Password');
+            forgotPassword.prop('disabled', false);
+            forgotPassword.removeClass("btn-light-secondary").addClass("btn-primary");
+        }
+    }, 1000);
+    
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+
+            if(jsonData.status === "too_frequent"){
+                Swal.fire({
+                    title: 'Warning! Wait a Moment',
+                    text: 'You have sent an email recently. Please wait a minute before trying again.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-warning'
+                    },
+                    buttonsStyling: false,
+                });
+            }
+            if(jsonData.status === "missing"){
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Error! Your email is missing.',
+                    icon: 'error', 
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false,
+                });
+            }
+            
+            if(jsonData.status === "success"){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'An link has been sent to your email. Please check your inbox to change your account.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-success'
+                    },
+                    buttonsStyling: false,
+                    timer: 5000,
+                });
+                setTimeout(function() {
+                    changeLoginAccount();
+                }, 60000);
+
+            }
+        } 
+    });
+}
+
+////////////////////////////////
+//////// Reset Password ////////
+////////////////////////////////
+
+function changeResetPassword(){
+
+    var formData = {
+        method    : "changeResetPassword",
+    };
+    
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+            $("#loginHeader").html(jsonData.loginHeader);
+            $("#loginBody").html(jsonData.loginBody);
+            $("#loginFooter").html(jsonData.loginFooter);
+            $("#loginSocial").hide();
+        } 
+    });
+}
+
+function postResetPassword(){
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const email = urlParams.get('email');
+    const code = urlParams.get('code');
+    var password = $("#password").val();
+    var confirmPassword = $("#confirmPassword").val();
+
+    var passwordRegex = regexPassword();
+
+
+    if (!passwordRegex.test(password)|| password  === "") {
+        $("#password").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    if (!passwordRegex.test(confirmPassword)|| confirmPassword  === "") {
+        $("#confirmPassword").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        $("#password").removeClass("is-valid").addClass("is-invalid");
+        $("#confirmPassword").removeClass("is-valid").addClass("is-invalid");
+        return;
+    }
+
+    var formData = {
+        email           : email,
+        code            : code,
+        password        : password,
+        confirmPassword : confirmPassword,
+        method          : "postResetPassword",
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: JSON_HOST_NAME_URL + 'login/login-function.php',
+        data: formData,
+        success: function (response) {
+            var jsonData = JSON.parse(response);
+
+            if(jsonData.status === "success"){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Reset password completed successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        changeLoginAccount();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Error! Something went wrong.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        changeLoginAccount();
+                    }
+                });
+            }
+
+        },
+    });
+}
+
 
 ///////////////////////////////
 //////// Create Account ///////
 ///////////////////////////////
 function changeCreateAccount(){
-    
-    var loginHeader = $("#loginHeader");
-    var loginBody   = $("#loginBody");
-    var loginFooter = $("#loginFooter");
 
     var formData = {
         method    : "changeCreateAccount",
@@ -105,16 +327,18 @@ function changeCreateAccount(){
         data: formData,
         success: function (response) {
             var jsonData = JSON.parse(response);
-            loginHeader.html(jsonData.loginHeader);
-            loginBody.html(jsonData.loginBody);
-            loginFooter.html(jsonData.loginFooter);
+            $("#loginHeader").html(jsonData.loginHeader);
+            $("#loginBody").html(jsonData.loginBody);
+            $("#loginFooter").html(jsonData.loginFooter);
+            $("#loginSocial").hide();
         } 
     });
 }
 
 function requestOTP(){
-    var email           = $("#email").val();
-    var btnOTP          = $("#btnOTP");
+    var email  = $("#email").val();
+    var otp    = $("#otp");
+    var btnOTP = $("#btnOTP");
 
     if(email !== ''){
         var formData = {
@@ -182,6 +406,7 @@ function requestOTP(){
 
         // Disable button and start countdown
         btnOTP.prop('disabled', true);
+        btnOTP.removeClass("btn-primary").addClass("btn-light-secondary");
         var counter = 60;
         var interval = setInterval(function() {
             counter--;
@@ -191,8 +416,11 @@ function requestOTP(){
                 clearInterval(interval);
                 btnOTP.text('Send OTP');
                 btnOTP.prop('disabled', false);
+                btnOTP.removeClass("btn-light-secondary").addClass("btn-primary");
             }
         }, 1000);
+
+        otp.prop('disabled', false);
 
     } else {
         Swal.fire({
@@ -287,10 +515,10 @@ function checkOTP(){
 };
 
 function validatePassword() {
-    var password = $("#password").val();
-    var confirmPassword = $("#confirmPassword").val();
-    var passwordRegex = regexPassword();
-    
+    var password             = $("#password").val();
+    var confirmPassword      = $("#confirmPassword").val();
+    var passwordRegex        = regexPassword();
+
     setTimeout(function() {
         $("#password").removeClass("is-preload");
 
@@ -311,8 +539,8 @@ function validatePassword() {
 }
 
 function validateConfirmPassword() {
-    var password = $("#password").val();
-    var confirmPassword = $("#confirmPassword").val();
+    var password             = $("#password").val();
+    var confirmPassword      = $("#confirmPassword").val();
 
     setTimeout(function() {
         $("#confirmPassword").removeClass("is-preload");
@@ -366,10 +594,11 @@ function postRegister(){
     }
 
     var formData = {
-        email    : email,
-        otp      : otp,
-        password : confirmPassword,
-        method  : "postRegister",
+        email           : email,
+        otp             : otp,
+        password        : password,
+        confirmPassword : confirmPassword,
+        method          : "postRegister",
     };
 
     $.ajax({
@@ -400,8 +629,6 @@ function postRegister(){
             }
         },
     });
-
-
 }
 
 ///////////////////////////////
