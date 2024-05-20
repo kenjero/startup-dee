@@ -2,8 +2,11 @@
     require_once 'functions/php.config.inc.php';
     require_once 'functions/php.functions.php';
     require_once 'vendor/autoload.php';
-    
-    $auth = new Authentication();
+
+    $db    = (new Database())->connect();
+    $addOn = new AddOn();
+    $auth  = new Authentication();
+
     $result = $auth->check_indexLogin();
 ?>
 

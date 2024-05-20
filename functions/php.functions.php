@@ -235,7 +235,6 @@ class Authentication {
     // ============================== //
 
     public function check_EmailRegiter($email,$verifiedEmail) {
-
         // ทำการเลือกข้อมูลจากตาราง auth_member
         $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND verifiedEmail = :verifiedEmail AND `type` = :type";
         $stmt = $this->db->prepare($sql);
@@ -244,13 +243,10 @@ class Authentication {
         $stmt->bindValue(":type"          , "RG"           , PDO::PARAM_STR);
         $stmt->execute();
         $result = $this->addOn->useFetchAll($stmt);
-
         return $result;
-
     }
 
     public function check_OTP($dataArray) {
-
         // ทำการเลือกข้อมูลจากตาราง auth_member
         $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND `OTP` = :OTP AND `type` = :type";
         $stmt = $this->db->prepare($sql);
@@ -259,9 +255,7 @@ class Authentication {
         $stmt->bindValue(":type"  , "RG"                , PDO::PARAM_STR);
         $stmt->execute();
         $result = $this->addOn->useFetchAll($stmt);
-
         return $result;
-
     }
     
 
@@ -279,8 +273,6 @@ class Authentication {
         }else{
             return true;
         }
-
-       
     }
     
     function updateLastSentTime($email) {
@@ -293,9 +285,7 @@ class Authentication {
 
 
     public function check_ResetPassword($email,$code) {
-
         $sql = "SELECT * FROM `auth_member` WHERE `email` = :email AND `codeChangPassword` = :code AND `type` = :type";
-
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(":email" , $email  , PDO::PARAM_STR);
         $stmt->bindValue(":code"   , $code   , PDO::PARAM_STR);
@@ -308,7 +298,15 @@ class Authentication {
         } else {
             return true;
         }
+    }
 
+    public function check_EmailGoogleAPI($member_id) {
+        $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(":member_id" , $member_id , PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $this->addOn->useFetchAll($stmt);
+        return $result;
     }
 
 

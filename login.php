@@ -121,13 +121,13 @@
                                         $client->setClientSecret(API_GOOGLE_CLIENT_SECRET);
                                         $client->setRedirectUri(API_GOOGLE_CALLBACK_URL);
                                         $client->setScopes(['email', 'profile']);
-                                        $client->setAccessType('offline');
-                                        $client->setApprovalPrompt('force');
+                                        $client->setAccessType('online');
+                                        $client->setApprovalPrompt('auto');
                                         $authGoogleUrl = $client->createAuthUrl();
                                     ?>
-
+                                    
                                     <div class="d-grid">
-                                        <button type="button" class="btn mt-2 btn-light text-muted" onclick="googleAuthAPI('<?=$authGoogleUrl?>')">
+                                        <button type="button" class="btn mt-2 btn-light text-muted" onclick="googleAuthAPI('<?=API_GOOGLE_CALLBACK_URL?>')">
                                             <img src="assets/images/authentication/google.png" alt="img">
                                             <span class="d-none d-sm-inline-block">Google</span>
                                         </button>

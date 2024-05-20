@@ -18,4 +18,10 @@
         include 'pages/home/home.php';
     }
 
+    if ($pages === "record") {
+        $title = "Recode Vdo System";
+        $description = "This is the Recode Vdo System page description.";
+        include 'pages/record/record.php';
+    }
+
 ?>
