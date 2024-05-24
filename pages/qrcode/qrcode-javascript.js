@@ -1,32 +1,14 @@
-///////////////////////////////
-////// Webcam Recording ///////
-///////////////////////////////
+////////////////////////////////
+/////////// QR-Code ////////////
+////////////////////////////////
 
-let recording = false;
-let mediaRecorder;
-let recordedChunks = [];
-let startTime;
-const recordingLoading = document.getElementById('recording-loader');
-const containerLoading = document.getElementById('container');
-
-function getWebcamDrivers() {
-    navigator.mediaDevices.enumerateDevices()
-        .then((devices) => {
-            const videoSelect = document.getElementById('webcam-select');
-            devices.forEach((device) => {
-                if (device.kind === 'videoinput') {
-                    const option = document.createElement('option');
-                    option.value = device.deviceId;
-                    option.text = device.label || `Camera ${videoSelect.length + 1}`;
-                    videoSelect.appendChild(option);
-                }
-            });
-        })
-        .catch((error) => {
-            console.error('Error enumerating devices:', error);
-        });
+function setValue(count) {
+    
 }
 
+document.getElementById('webcam-select').addEventListener('change', (event) => {
+    startWebcam(event.target.value);
+});
 
 function startWebcam(deviceId) {
 
@@ -55,16 +37,11 @@ function startWebcam(deviceId) {
 
 function stopWebcam() {
     const webcam = document.getElementById('webcam');
-    
-    if (webcam && webcam.srcObject) {
-        const tracks = webcam.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
-        webcam.srcObject = null;
-    } else {
-        console.log('No media stream found.');
-    }
-}
+    const tracks = webcam.srcObject.getTracks();
 
+    tracks.forEach(track => track.stop());
+    webcam.srcObject = null;
+}
 
 
 function checkOrderID() {
@@ -139,7 +116,7 @@ function handleDataAvailable(event) {
 function saveVideo() {
     if (recordedChunks.length > 0) {
         const blob = new Blob(recordedChunks, { type: 'video/webm' });
-        /* const url = URL.createObjectURL(blob); */
+        const url = URL.createObjectURL(blob);
         var orderid = $("#orderid").val();
 
         var formData = new FormData();
@@ -178,6 +155,14 @@ function saveVideo() {
                 console.log('Video uploaded to server:', jsonData.status);
                 
                 if(jsonData.status === "success"){
+                  const a = document.createElement('a');
+                  document.body.appendChild(a);
+                  a.style = 'display: none';
+                  a.href = url;
+                  a.download = orderid + '.webm';
+                  a.click();
+
+                  URL.revokeObjectURL(url);
 
                   containerLoading.style.background = 'none';
                   recordingLoading.style.display = 'none';
@@ -208,12 +193,10 @@ document.addEventListener("keypress", function(e) {
 /////// Table Recording ///////
 //////////////////////////////
 
-function table_record_system(search) {
-
+function table_record_system() {
     var dateSearch = $("#dateSearch").val();
 
     var formData = new FormData();
-    formData.append('search', search);
     formData.append('dateSearch', dateSearch);
     formData.append('method', 'record_system_list');
 
@@ -231,15 +214,15 @@ function table_record_system(search) {
             var dataTableJson = {
                                     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                                     columnDefs: [
-                                        { "width": "2%"  , "targets": [0, 1, 6] },
-                                        { "width": "5%"  , "targets": [2] },
-                                        { "width": "14%" , "targets": [3, 4, 5] },
-                                        { className: "dt-left", targets: [3] },
-                                        { className: "dt-right", targets: [4, 5] },
-                                        { className: "dt-center", targets: [0, 1, 2, 6] },
-                                        { orderable: false, targets: [0, 1, 2, 3, 4, 5] },
+                                        { "width": "2%"  , "targets": [0, 5] },
+                                        { "width": "5%"  , "targets": [1] },
+                                        { "width": "14.6666%" , "targets": [2, 3, 4] },
+                                        { className: "dt-left", targets: [2] },
+                                        { className: "dt-right", targets: [3, 4] },
+                                        { className: "dt-center", targets: [0, 1, 5] },
+                                        { orderable: false, targets: [1, 2, 3, 4, 5] },
                                     ],
-                                    order: [ [ 1, "desc" ] ],
+                                    order: [ [ 0, "desc" ] ],
                                 }
             if ($.fn.DataTable.isDataTable(table)) {
                 table.DataTable().destroy();
@@ -258,14 +241,6 @@ function table_record_system(search) {
             console.error('Error uploading video to server:', error);
         }
     });
-}
-
-function search_record() {
-    table_record_system('dateSearch');
-}
-
-function search_record_all() {
-    table_record_system('all');
 }
 
 function deleteRecord(id) {
@@ -292,10 +267,11 @@ function deleteRecord(id) {
                 data: formData,
                 success: function (response) {
                     var jsonData = JSON.parse(response);
-                    console.log(jsonData);
+                    
                     if(jsonData.status === "success"){
                         notifier.show('Deleted!', 'Your record has been deleted.', 'danger', NOTIFIER_IMAGE_DANGER, 4000);
                     }
+
                     table_record_system();
                 },
                 error: function (error) {
@@ -307,100 +283,6 @@ function deleteRecord(id) {
     
 }
 
-
-function checkAll() {
-    const checkAll   = $('#checkAll');
-    const checkboxes = $('[name="checkItem[]"]');
-    const btnCheckAll = $('#btnCheckAll');
-  
-    checkAll.on('change', function() {
-      checkboxes.each(function() {
-        $(this).prop('checked', checkAll.prop('checked'));
-      });
-    });
-  
-    checkboxes.each(function() {
-      $(this).on('change', function() {
-        if (!$(this).prop('checked')) {
-          checkAll.prop('checked', false);
-        } else {
-          const allChecked = checkboxes.toArray().every(ch => $(ch).prop('checked'));
-          checkAll.prop('checked', allChecked);
-        }
-      });
-    });
-  
-    if (checkAll.prop('checked')) {
-      btnCheckAll.removeClass('text-secondary').addClass('text-primary');
-      btnCheckAll.html('<i class="fas fa-check-square mr-1"></i> Select All');
-    } else {
-      btnCheckAll.removeClass('text-primary').addClass('text-secondary');
-      btnCheckAll.html('<i class="fas fa-square mr-1"></i> Select All');
-    }
-}
-  
-function btnCheckAll() {
-    const checkAll   = $('#checkAll');
-    const checkboxes = $('[name="checkItem[]"]');
-    const btnCheckAll = $('#btnCheckAll');
-  
-    checkboxes.each(function() {
-      $(this).prop('checked', !checkAll.prop('checked'));
-    });
-  
-    checkAll.prop('checked', !checkAll.prop('checked'));
-  
-    if (checkAll.prop('checked')) {
-      btnCheckAll.removeClass('text-secondary').addClass('text-primary');
-    } else {
-      btnCheckAll.removeClass('text-primary').addClass('text-secondary');
-    }
-}
-
-function btnDeleteAll() {
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-  
-        const checkboxes = $('[name="checkItem[]"]:checked');
-        const ids = checkboxes.map(function() {
-          return $(this).val();
-        }).get();
-  
-        ids.forEach(function(id, index) {
-          setTimeout(function() {
-            var formData = {
-              id     : id,
-              method  : "deleteRecord",
-            };
-  
-            $.ajax({
-                type: 'POST',
-                url: JSON_HOST_NAME_URL  + 'record/record-function.php',
-                data: formData,
-                success: function (response) {
-                    var jsonData = JSON.parse(response);
-                    if(jsonData.status === "success"){
-                        notifier.show('Deleted!', 'Your record has been deleted.', 'danger', NOTIFIER_IMAGE_DANGER, 4000);
-                    }
-                    $('#tr' + id).delay(100).fadeOut(500, function() {
-                        $(this).remove(); // Optionally remove the row from the DOM after fading out
-                    });
-                },
-            });
-          }, index * 100); // 0.1 second delay
-        });
-      }
-    });
-}
 
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -51,6 +51,31 @@ Class AddOn {
         return $result;
     }
 
+    public function trLoading($colspan) {
+        $tLoad  = '<tbody>';
+        $tLoad .= ' <tr class="odd">';
+        $tLoad .= '     <td valign="top" colspan="'.$colspan.'" class="dt-center">';
+        $tLoad .= '         <span class="spinner-border spinner-border-sm" role="status"></span>  Loading...';
+        $tLoad .= '     </td>';
+
+        for($i = 2; $i <= $colspan; $i++){
+            $tLoad .= ' <td style="display: none;"></td>';
+        }
+
+        $tLoad .= ' </tr>';  
+        $tLoad .= '</tbody>';
+
+        return $tLoad;
+    }
+
+    public function cardLoading() {
+        $cardLoad  = '<div class="d-flex justify-content-center">';
+        $cardLoad .= '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>';
+        $cardLoad .= '</div>';
+
+        return $cardLoad;
+    }
+
     public function generateRandomString($length) {
         $numbers    = '0123456789';
         $lowercase  = 'abcdefghijklmnopqrstuvwxyz';

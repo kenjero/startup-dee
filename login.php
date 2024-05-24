@@ -110,22 +110,12 @@
                             <a href="#" class="link-primary" onclick="changeForgotPassword()">Forgot your password?</a> 
                         </div>
 
-                        <div id="loginSocial">
+                        <?PHP
+                        /* <div id="loginSocial">
                             <div class="saprator my-1"><span>OR</span></div>
 
                             <div class="row g-2">
                                 <div class="col-12">
-                                    <?PHP
-                                        $client = new Google\Client();
-                                        $client->setClientId(API_GOOGLE_CLIENT_ID);
-                                        $client->setClientSecret(API_GOOGLE_CLIENT_SECRET);
-                                        $client->setRedirectUri(API_GOOGLE_CALLBACK_URL);
-                                        $client->setScopes(['email', 'profile']);
-                                        $client->setAccessType('online');
-                                        $client->setApprovalPrompt('auto');
-                                        $authGoogleUrl = $client->createAuthUrl();
-                                    ?>
-                                    
                                     <div class="d-grid">
                                         <button type="button" class="btn mt-2 btn-light text-muted" onclick="googleAuthAPI('<?=API_GOOGLE_CALLBACK_URL?>')">
                                             <img src="assets/images/authentication/google.png" alt="img">
@@ -134,7 +124,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */
+                        ?>
 
                     </div>
 

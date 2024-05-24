@@ -506,6 +506,7 @@ if ($_POST['method'] == "sandOTP") {
 
 }
 
+
 if ($_POST['method'] == "checkEmail") {
 
     $email = $_POST['email'];

@@ -72,9 +72,12 @@
     /////////// API TikTok ///////////
     //////////////////////////////////
 
-    define("API_TIKTOK_CLIENT_KEY"      ,"awhbsal49hmgtpwt"); // ClientId API GOOGLE
-    define("API_TIKTOK_CLIENT_SECRET"   ,"s0nLM0zKBzmPfZqhNmdIpvUNIkVYhh6Y"); // ClientSecret API GOOGLE
-    define("API_TIKTOK_DRIVE_FOLDER_ID" ,"13hjPbMtyNw4s_6u6YhqVctDZnyHzwJXb"); //ID โฟลเดอร์ Google Drive
-    define("API_TIKTOK_CALLBACK_URL"    , HOST_NAME_URL."callbacks/tiktok/callback_tiktok.php");
+    define("API_TIKTOK_CLIENT_KEY"    , "awhbsal49hmgtpwt");
+    define("API_TIKTOK_CLIENT_SECRET" , "s0nLM0zKBzmPfZqhNmdIpvUNIkVYhh6Y");
+    /* define("API_TIKTOK_SCOPES"     , "product.list,product.detail,order.list,order.detail,product.add,product.update,product.delete"); */
+    define("API_TIKTOK_SCOPES"        , "user.info");
+    define("API_TIKTOK_CALLBACK_URL"  , HOST_NAME_URL."callbacks/tiktok/callback_tiktok.php");
+    define("API_TIKTOK_RIGHTS_URL"    , "https://www.tiktok.com/auth/authorize/?client_key=".API_TIKTOK_CLIENT_KEY."&response_type=code&scope=".API_TIKTOK_SCOPES."&redirect_uri=".API_TIKTOK_CALLBACK_URL);
+
 
 ?>

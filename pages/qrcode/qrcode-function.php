@@ -12,27 +12,23 @@ $auth  = new Authentication();
 /////////////////////////////////////////////////////
 if ($_POST['method'] == "record_system_list") {
 
-  $dateSearch = $_POST['dateSearch'] ?? date('Y-m-d');
-  $search = $_POST['search'];
+  $dateSearch = $_POST['dateSearch'];
+
+  $sql = "SELECT * FROM `record_system`
+          WHERE `record_date` = :date AND `member_id` = :member_id
+          ORDER BY id DESC";
+
   $member_id = $_SESSION['user_info']['member_id'];
 
-  if ($search == 'dateSearch' || $search == 'undefined') {
-    $sql = "SELECT * FROM `record_system` WHERE `record_date` = :date AND `member_id` = :member_id ORDER BY id DESC";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':date'      , $dateSearch , PDO::PARAM_STR);
-    $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_STR);
-  } else {
-    $sql = "SELECT * FROM `record_system` WHERE `member_id` = :member_id ORDER BY id DESC";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_STR);
-  }
-  
+  $stmt = $db->prepare($sql);
+  $stmt->bindValue(':date'      , $dateSearch , PDO::PARAM_STR);
+  $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_STR);
   $stmt->execute();
+
   $RecordSystem = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   $thead = '<thead>
               <tr>
-                <th><input class="form-check-input input-light-primary" id="checkAll" type="checkbox" onclick="checkAll()"></th>
                 <th>ID</th>
                 <th><i class="bi bi-film"></i></th>
                 <th>ORDER ID</th>
@@ -45,8 +41,7 @@ if ($_POST['method'] == "record_system_list") {
   $tbody = '<tbody>';
   $count = count($RecordSystem);
   foreach ($RecordSystem as $result) {
-  $tbody .= '<tr id="tr'.$result['id'].'">
-                <td><input type="checkbox" class="form-check-input input-light-primary" name="checkItem[]"  value="'.$result['id'].'"></td>
+  $tbody .= '<tr>
                 <td>'.$count--.'</td>
                 <td><a target="_blank" href="https://drive.google.com/open?id='.$result['record_name'].'"><i class="fab fa-google-drive"></i></a></td>
                 <td>'.$result['order_id'].'</td>
@@ -57,7 +52,7 @@ if ($_POST['method'] == "record_system_list") {
   }
   $tbody .= '</tbody>';
 
-  $tload = $addOn->trLoading(7);
+  $tload = $addOn->trLoading(6);
 
   $result = [
     'thead' => $thead,
@@ -130,16 +125,12 @@ if ($_POST['method'] == "uploadVdoGoogleDrive") {
         $file_data = file_get_contents($recordName);
         */
 
-        if ($result['folderCode'] == null) {
-          $fileMetadata = new Google\Service\Drive\DriveFile([
+        $folderId = API_GOOGLE_DRIVE_FOLDER_ID;
+
+        $fileMetadata = new Google\Service\Drive\DriveFile([
             'name'    => $name.'.webm',
-          ]);
-        } else {
-          $fileMetadata = new Google\Service\Drive\DriveFile([
-            'name'    => $name.'.webm',
-            'parents' => [$result['folderCode']],
-          ]);
-        }
+            'parents' => [$folderId],
+        ]);
 
         $file = $service->files->create(
           $fileMetadata,
@@ -236,13 +227,7 @@ if ($_POST['method'] == "deleteRecord") {
   $stmtRecord = $stmt->fetch(PDO::FETCH_ASSOC);
 
   try {
-    $service->files->delete($stmtRecord['record_name']);
-    $status = ['delete' => "success",];
-  } catch (Google\Service\Exception $e) {
-    $status = ['delete' => "error",];
-  }
-
-  try {
+      $service->files->delete($stmtRecord['record_name']);
 
       $sql = "DELETE FROM record_system WHERE `id` = :id";
       $stmt = $db->prepare($sql);

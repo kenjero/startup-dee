@@ -3,6 +3,7 @@
         "typerej/line-login": "dev-master",
         "gimucco/tiktok-loginkit": "^0.6.6",
         "google/apiclient": "^2.16",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "guzzlehttp/guzzle": "^7.8"
     }
 }

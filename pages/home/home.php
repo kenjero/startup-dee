@@ -30,6 +30,11 @@
                             <h5>Hello card</h5>
                         </div>
                         <div class="card-body">
+                        <div id="container"> 
+                            <div class="alert alert-danger" role="alert">
+                                <a class='login' href='#' onclick="googleAuthAPI('<?=API_TIKTOK_RIGHTS_URL?>')"><i class="fab fa-tiktok"></i> Connect Google Drive!!</a>
+                            </div>
+
                             <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure

@@ -11,27 +11,37 @@
 
           <div class="card-body">
             <?php 
-            /* unset($_SESSION['id_token_token_drive']);
-            unset($_SESSION['code_verifier_drive']); */
-
             $check_auth_google = $auth->check_EmailGoogleAPI($_SESSION['user_info']['member_id']);
-            if (empty($check_auth_google)) : ?>
+            if (empty($check_auth_google)) : 
+            ?>
 
               <div id="container"> 
-                  <div class="alert alert-danger" role="alert">
-                    <a class='login' href='#' onclick="googleAuthAPI('<?=API_GOOGLE_DRIVE_CALLBACK_URL?>')"><i class="fab fa-google-drive"></i> Connect Google Drive!!</a>
-                  </div>
+                <button type="button" class="w-100 btn mt-2 btn-light" onclick="window.location.href='setting_record'">
+                  <i class="fas fa-cog me-2"></i><span class="d-sm-inline-block">Setting Google Drive!!</span>
+                </button>
               </div>
+
             <?php else : ?>
 
-            <button id="record-btn" onclick="toggleRecording()" type="button" class="btn btn-sm btn-light-primary" tabindex="0" aria-controls="cbtn-selectors"><span id="record-text"><i class="bi bi-play-fill"></i> Record</span></button>
+            <div class="row">
+              <div class="col-md-6">
+                <button id="record-btn" onclick="toggleRecording()" type="button" class="btn btn-sm btn-light-primary" tabindex="0" aria-controls="cbtn-selectors">
+                  <span id="record-text"><i class="bi bi-play-fill"></i> Record</span>
+                </button>
+              </div>
+              <div class="col-md-6">
+                <select id="webcam-select" class="form-select form-select-sm" onchange="startWebcam(this.value);"></select>
+                </select>
+              </div>
+            </div>
+
             <div id="container">
 
               <video id="webcam" autoplay></video>
 
               <div id="recording-loader">
                 <div class="progress mb-4" id="progress-bar-container">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-'+bgcolor+'" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                     <span id="process-number"></span>
                   </div>
                 </div>
@@ -72,27 +82,36 @@
           <div class="card-header">
             <div class="row row-cols-md-auto lign-items-center">
 
-              <div class="col-md-6">
+              <div class="col-md-8">
                 <div class="input-group date">
-                  <input type="text" class="form-control" placeholder="Select date" id="dateSearch" value="<?=date('Y-m-d')?>">
                   <span class="input-group-text" id="iconDatepicker"><i class="fas fa-calendar-alt"></i></span>
+                  <input type="text" class="form-control" placeholder="Select date" id="dateSearch" value="<?=date('Y-m-d')?>">
+                  <button type="submit" class="btn btn-dark" name="search" id="search" value="search" onclick="search_record();"><i class="fas fa-search"></i> Search</button>
                 </div>
               </div>
 
-              <div class="col-md-6">
-                <button type="submit" class="btn btn-primary" name="search" id="search" value="search" onclick="record_system();">
-                  <i class="fas fa-search"></i> Search</button>
+              <div class="col-md-4 text-end">
+                <button type="submit" class="btn btn-primary" name="search" id="search" value="search" onclick="search_record_all();"><i class="fas fa-search"></i> Search All</button>
               </div>
 
             </div>
           </div>
           <div class="card-body">
+            
             <div class="dt-responsive table-responsive">
-
               <table id="dbtable-record" class="table table-striped table-bordered nowrap">
               </table>
-
             </div>
+
+            <div class="text-end mt-3">
+              <button class="btn btn-sm btn-light-primary" type="button" id="btnCheckAll-Maid" onclick="btnCheckAll()"> 
+                <i class="fas fa-check-square mr-1"></i>  Select All </span>
+              </button> 
+              <button class="btn btn-sm btn-light-danger" type="button" id="delete" onclick="btnDeleteAll()"> 
+                <i class="fas fa-trash-alt mr-1"></i>  Delete </span>
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
