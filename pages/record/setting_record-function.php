@@ -12,13 +12,9 @@ $auth  = new Authentication();
 /////////////////////////////////////////////////////
 if ($_POST['method'] == "authGoogle") {
 
-  $sql = "SELECT * FROM `auth_google`
-          WHERE `member_id` = :member_id";
-
-  $member_id = $_SESSION['user_info']['member_id'];
-
+  $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
   $stmt = $db->prepare($sql);
-  $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_INT);
+  $stmt->bindValue(':member_id' , $_SESSION['user_info']['member_id']  , PDO::PARAM_INT);
   $stmt->execute();
 
   $authGoogle = $addOn->useFetchAll($stmt);
@@ -58,12 +54,11 @@ if ($_POST['method'] == "submitFolder") {
 
   $sql = "UPDATE `auth_google` SET `folderCode` = :folderCode WHERE `member_id` = :member_id";
 
-  $member_id = $_SESSION['user_info']['member_id'];
   $folder    = $_POST['folder'];
 
   $stmt = $db->prepare($sql);
   $stmt->bindValue(':folderCode' , $folder    , PDO::PARAM_STR);
-  $stmt->bindValue(':member_id'  , $member_id , PDO::PARAM_INT);
+  $stmt->bindValue(':member_id'  , $_SESSION['user_info']['member_id'] , PDO::PARAM_INT);
 
   $stmt->execute();
 
@@ -86,12 +81,10 @@ if ($_POST['method'] == "submitFolder") {
 
 if ($_POST['method'] == "outGoogleAuthAPI") {
 
-  $member_id = $_SESSION['user_info']['member_id'];
-
   try {
       $sql = "DELETE FROM auth_google WHERE member_id = :member_id";
       $stmt = $db->prepare($sql);
-      $stmt->bindValue(':member_id', $member_id, PDO::PARAM_INT);
+      $stmt->bindValue(':member_id', $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
       $stmt->execute();
 
       $status = ['status' => "success"];
@@ -115,12 +108,11 @@ if ($_POST['method'] == "fileGoogleDrive") {
   $service = new Google\Service\Drive($client);
 
   // Retrieve token from the database
-  $memberId = $_SESSION['user_info']['member_id'];
   $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
   $stmt = $db->prepare($sql);
-  $stmt->bindValue(":member_id", $memberId, PDO::PARAM_INT);
+  $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
   $stmt->execute();
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  $result = $addOn->useFetchAll($stmt);
 
   if (!$result) {
       $status = [
@@ -220,7 +212,8 @@ if ($_POST['method'] == "fileGoogleDrive") {
 
   echo json_encode($status);
 
-  
-
 }
+
+
+
 ?>

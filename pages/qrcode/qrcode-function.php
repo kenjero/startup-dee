@@ -18,11 +18,9 @@ if ($_POST['method'] == "record_system_list") {
           WHERE `record_date` = :date AND `member_id` = :member_id
           ORDER BY id DESC";
 
-  $member_id = $_SESSION['user_info']['member_id'];
-
   $stmt = $db->prepare($sql);
   $stmt->bindValue(':date'      , $dateSearch , PDO::PARAM_STR);
-  $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_STR);
+  $stmt->bindValue(':member_id' , $_SESSION['user_info']['member_id']  , PDO::PARAM_STR);
   $stmt->execute();
 
   $RecordSystem = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -79,10 +77,9 @@ if ($_POST['method'] == "uploadVdoGoogleDrive") {
     $service = new Google\Service\Drive($client);
 
     // Retrieve token from the database
-    $memberId = $_SESSION['user_info']['member_id'];
     $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(":member_id", $memberId, PDO::PARAM_INT);
+    $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -184,10 +181,9 @@ if ($_POST['method'] == "deleteRecord") {
   $client->addScope("https://www.googleapis.com/auth/drive");
 
   // Retrieve token from the database
-  $memberId = $_SESSION['user_info']['member_id'];
   $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
   $stmt = $db->prepare($sql);
-  $stmt->bindValue(":member_id", $memberId, PDO::PARAM_INT);
+  $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
   $stmt->execute();
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -220,7 +216,7 @@ if ($_POST['method'] == "deleteRecord") {
 
   $service = new Google\Service\Drive($client);
 
-  $sql = "SELECT * FROM `record_system` WHERE `id` = :id";
+  $sql = "SELECT * FROM `record_system` WHERE `id` = :id AND `member_id` = :member_id";
   $stmt = $db->prepare($sql);
   $stmt->bindValue(":id", $id, PDO::PARAM_INT);
   $stmt->execute();
@@ -232,6 +228,7 @@ if ($_POST['method'] == "deleteRecord") {
       $sql = "DELETE FROM record_system WHERE `id` = :id";
       $stmt = $db->prepare($sql);
       $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+      $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
       $stmt->execute();
       $status = ['status' => "success",];
   } catch (Exception $e) {

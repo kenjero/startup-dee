@@ -54,25 +54,6 @@
                     <span class="input-group-text">Rows</span>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label" for="product_id">Select Product</label>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <img class="rounded-circle" src="assets/images/no_image.jpg" id="productImage" alt="Product Image" style="max-width: 40px; height: auto;">
-                    </span>
-                    <select class="form-select" id="product_id" name="product_id" onchange="displayProductImage()">
-                      <option value="" selected="selected" data-img="assets/images/no_image.jpg">==== Select Product ====</option>
-                      <?php
-                        $stmt = $db->products_list();
-                        $SelectProductList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($SelectProductList as $SelectProduct) {
-                          echo '<option value="' . $SelectProduct['id'] . '" data-img="' . $SelectProduct['product_image'] . '">' . $SelectProduct['product_name'] . '</option>';
-                        }
-                      ?>
-                    </select>
-                  </div>
-                </div>
 
                 <div class="modal" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true">
                   <div class="modal-dialog-centered modal-dialog" role="document">
@@ -123,20 +104,6 @@
               </div>
 
                 <div class="form-group col-md-4">
-                  <select class="form-select" id="qr_product_id" name="qr_product_id">
-                    <option value="<?php echo $db->products_list_id(); ?>" selected="selected">📦 All Product</option>
-                    <?php
-                      $stmt = $db->products_list();
-                      $SelectProductList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                      foreach ($SelectProductList as $SelectProduct) {
-                        echo '<option value="' . $SelectProduct['id'] . '">' . $SelectProduct['product_name'] . '</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-
-                <div class="form-group col-md-4">
                   <select class="form-select" id="status" name="status">
                     <option value="0,1" selected="selected">🖨️ Status</option>
                     <option value="0">[0] ยังไม่ได้พิมพ์</option>
@@ -170,27 +137,11 @@
                     <th>#</th>
                     <th>ID Qr Code</th>
                     <th>Secret</th>
-                    <th>Product</th>
                     <th>Status</th>
                     <th>Activate</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-                  $stmtQR = $db->qrcode_list_first();
-                  $QRCodeListstmt = $stmtQR->fetchAll(PDO::FETCH_ASSOC);
-                  foreach ($QRCodeListstmt as $QRCodeTd) {
-                    echo
-                    '<tr>' .
-                        '<td>' . number_format($QRCodeTd['id']) . '</td>' .
-                        '<td>' . $QRCodeTd['product_sku'].$QRCodeTd['product_id'].$QRCodeTd['id_qrcode'] . '</td>' .
-                        '<td>' . $QRCodeTd['secret'] . '</td>' .
-                        '<td>' . $QRCodeTd['product_name'] . '</td>' . // เปลี่ยนเป็น product_name แทน product_id
-                        '<td>' . $QRCodeTd['status'] . '</td>' .
-                        '<td>' . $QRCodeTd['activate'] . '</td>' .
-                    '</tr>';
-                  }
-                   ?>
                 </tbody>
               </table>
             </div>
@@ -200,36 +151,3 @@
     </div><!-- [ Main Content ] end -->
   </div>
 </section>
-
-<script>
-  function displayProductImage() {
-    var productSelect = document.getElementById('product_id');
-    var selectedProduct = productSelect.options[productSelect.selectedIndex];
-
-    var productImage = document.getElementById('productImage');
-    var imgUrl = selectedProduct.getAttribute('data-img');
-
-    productImage.src = imgUrl;
-    productImage.style.display = 'block';
-  }
-</script>
-
-<script>
-  $(document).ready(function() {
-    // เรียกใช้ DataTables
-    $('#cbtn-selectors').DataTable({
-        lengthMenu: [
-            [20, 100, 150, -1],
-            ['20', '100', '150', 'Show all']
-        ],
-        order: [[0, 'desc']] // ให้คอลัมน์ที่มี index 0 (ID) เรียงลำดับจากมากไปน้อย (descending order)
-    });
-  });
-</script>
-<!-- [Page Specific JS] end -->
-
-<script>
-function setValue(value) {
-  document.getElementById('addqrcode').value = value;
-}
-</script>

@@ -13,17 +13,25 @@ function authGoogle() {
         method  : "authGoogle",
     };
 
+    google.html(CARD_LOADING);
+    email.addClass("is-perload");
+    name.addClass("is-perload");
+    folder.addClass("is-perload");
+
     $.ajax({
         type: 'POST',
         url: JSON_HOST_NAME_URL  + 'record/setting_record-function.php',
         data: formData,
         success: function (response) {
             var jsonData = JSON.parse(response);
-            email.val(jsonData.email);
-            name.val(jsonData.name);
-            folder.val(jsonData.folder);
 
-            google.html(jsonData.google);
+            setTimeout(function() {
+                email.val(jsonData.email).removeClass("is-perload");
+                name.val(jsonData.name).removeClass("is-perload");
+                folder.val(jsonData.folder).removeClass("is-perload");
+                google.html(jsonData.google);
+            }, 500);
+           
 
         },
         error: function (error) {
@@ -87,8 +95,6 @@ function fileGoogleDrive() {
         success: function (response) {
             var jsonData = JSON.parse(response);
             
-            console.log(jsonData);
-
             setTimeout(function() {
                 $("#fileGoogleDrive").html(jsonData.message);
             }, 1000);

@@ -18,27 +18,35 @@
         include 'pages/home/home.php';
     }
 
+    ///// record system /////
     if ($pages === "record") {
         $title = "Recode Vdo System";
         $description = "This is the Recode Vdo System page description.";
         include 'pages/record/record.php';
     }
     if ($pages === "setting_record") {
-        $title = "Setting Record Vdo System";
+        $title = "Record Vdo Setting";
         $description = "This is the Recode Vdo System page description.";
         include 'pages/record/setting_record.php';
     }
 
+    ///// qrcode system /////
     if ($pages === "qrcode") {
-        $title = "Recode Vdo System";
+        $title = "QR-Code System";
         $description = "This is the Recode Vdo System page description.";
         include 'pages/qrcode/qrcode.php';
     }
-
-    if ($pages === "tiktok") {
-        $title = "tiktok Vdo System";
+    if ($pages === "setting_qrcode") {
+        $title = "QR-Code Setting";
         $description = "This is the Recode Vdo System page description.";
-        include 'pages/qrcode/qrcode.php';
+        include 'pages/qrcode/setting_qrcode.php';
+    }
+
+    ///// product system /////
+    if ($pages === "products") {
+        $title = "Products System";
+        $description = "This is the Recode Vdo System page description.";
+        include 'pages/product/product.php';
     }
 
 ?>

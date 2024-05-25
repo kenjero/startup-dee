@@ -14,21 +14,18 @@ if ($_POST['method'] == "record_system_list") {
 
   $dateSearch = $_POST['dateSearch'] ?? date('Y-m-d');
   $search = $_POST['search'];
-  $member_id = $_SESSION['user_info']['member_id'];
 
   if ($search == 'dateSearch' || $search == 'undefined') {
     $sql = "SELECT * FROM `record_system` WHERE `record_date` = :date AND `member_id` = :member_id ORDER BY id DESC";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':date'      , $dateSearch , PDO::PARAM_STR);
-    $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_STR);
   } else {
     $sql = "SELECT * FROM `record_system` WHERE `member_id` = :member_id ORDER BY id DESC";
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':member_id' , $member_id  , PDO::PARAM_STR);
   }
-  
+  $stmt->bindValue(':member_id' , $_SESSION['user_info']['member_id']  , PDO::PARAM_INT);
   $stmt->execute();
-  $RecordSystem = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $RecordSystem = $addOn->useFetchAll($stmt);;
 
   $thead = '<thead>
               <tr>
@@ -83,13 +80,11 @@ if ($_POST['method'] == "uploadVdoGoogleDrive") {
     $client->addScope("https://www.googleapis.com/auth/drive");
     $service = new Google\Service\Drive($client);
 
-    // Retrieve token from the database
-    $memberId = $_SESSION['user_info']['member_id'];
     $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(":member_id", $memberId, PDO::PARAM_INT);
+    $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $addOn->useFetchAll($stmt);;
 
     if (!$result) {
         $status = ['status' => "false",];
@@ -123,12 +118,12 @@ if ($_POST['method'] == "uploadVdoGoogleDrive") {
 
         $name = date('YmdHis') . "_" . $addOn->generateRandomToken(5);
 
-        /*
-        $recordName = FRONT_END_DOCUMENT_ROOT . "/temp_download/" . $name . ".webm";
-        move_uploaded_file($_FILES["record_name"]["tmp_name"], $recordName);
+        /* {
+          $recordName = FRONT_END_DOCUMENT_ROOT . "/temp_download/" . $name . ".webm";
+          move_uploaded_file($_FILES["record_name"]["tmp_name"], $recordName);
 
-        $file_data = file_get_contents($recordName);
-        */
+          $file_data = file_get_contents($recordName);
+        } */
 
         if ($result['folderCode'] == null) {
           $fileMetadata = new Google\Service\Drive\DriveFile([
@@ -149,6 +144,13 @@ if ($_POST['method'] == "uploadVdoGoogleDrive") {
               'uploadType'  => 'media'
             )
         );
+
+        $permission = new Google\Service\Drive\Permission([
+          'type' => 'anyone',
+          'role' => 'reader',
+        ]);
+  
+        $service->permissions->create($file->id, $permission);
 
         $postData = array(
           'record_name' => $file->id,
@@ -193,12 +195,11 @@ if ($_POST['method'] == "deleteRecord") {
   $client->addScope("https://www.googleapis.com/auth/drive");
 
   // Retrieve token from the database
-  $memberId = $_SESSION['user_info']['member_id'];
   $sql = "SELECT * FROM `auth_google` WHERE `member_id` = :member_id";
   $stmt = $db->prepare($sql);
-  $stmt->bindValue(":member_id", $memberId, PDO::PARAM_INT);
+  $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
   $stmt->execute();
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  $result = $addOn->useFetchAll($stmt);;
 
   if (!$result) {
       $status = ['status' => "false",];
@@ -229,11 +230,12 @@ if ($_POST['method'] == "deleteRecord") {
 
   $service = new Google\Service\Drive($client);
 
-  $sql = "SELECT * FROM `record_system` WHERE `id` = :id";
+  $sql = "SELECT * FROM `record_system` WHERE `id` = :id AND `member_id` = :member_id";
   $stmt = $db->prepare($sql);
   $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+  $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
   $stmt->execute();
-  $stmtRecord = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmtRecord = $addOn->useFetchAll($stmt);;
 
   try {
     $service->files->delete($stmtRecord['record_name']);
@@ -244,9 +246,10 @@ if ($_POST['method'] == "deleteRecord") {
 
   try {
 
-      $sql = "DELETE FROM record_system WHERE `id` = :id";
+      $sql = "DELETE FROM record_system WHERE `id` = :id AND `member_id` = :member_id";
       $stmt = $db->prepare($sql);
       $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+      $stmt->bindValue(":member_id", $_SESSION['user_info']['member_id'], PDO::PARAM_INT);
       $stmt->execute();
       $status = ['status' => "success",];
   } catch (Exception $e) {

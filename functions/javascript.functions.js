@@ -32,3 +32,4 @@ function googleAuthAPI(authUrl) {
     }
   }, 500);
 }
+ 

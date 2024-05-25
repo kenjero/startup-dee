@@ -70,6 +70,12 @@
                             <li class="pc-item"><a class="pc-link" href="setting_qrcode">Settings QR-Code</a></li>
                         </ul>
                     </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="products" class="pc-link">
+                            <span class="pc-micon"><i class="ph-duotone ph-handbag"></i></span>
+                            <span class="pc-mtext">Products System</span>
+                        </a>
+                    </li>
 
                     <li class="pc-item pc-caption">
                         <label>Profile</label>

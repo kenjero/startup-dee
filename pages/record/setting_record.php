@@ -6,7 +6,7 @@
       <div class="col-sm-5">
         <div class="card">
           <div class="card-header">
-            <i class="ph-duotone ph-webcam fs-3 me-2"></i> เปิดกล้อง Webcam
+          <i class="fab fa-google-drive me-2"></i> Connect Google Drive!!
           </div>
 
           <div class="card-body">
