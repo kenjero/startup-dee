@@ -234,8 +234,9 @@ function table_record_system() {
                 table.DataTable().destroy();
                 table.html(jsonData.thead + jsonData.tbody);
                 table.DataTable(dataTableJson);
+                shiftKeyCheckbox();
             }, 500);
-
+            
         },
         error: function (error) {
             console.error('Error uploading video to server:', error);

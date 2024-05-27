@@ -25,7 +25,7 @@ if ($_POST['method'] == "record_system_list") {
   }
   $stmt->bindValue(':member_id' , $_SESSION['user_info']['member_id']  , PDO::PARAM_INT);
   $stmt->execute();
-  $RecordSystem = $addOn->useFetchAll($stmt);;
+  $RecordSystem = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   $thead = '<thead>
               <tr>
@@ -125,16 +125,11 @@ if ($_POST['method'] == "uploadVdoGoogleDrive") {
           $file_data = file_get_contents($recordName);
         } */
 
-        if ($result['folderCode'] == null) {
-          $fileMetadata = new Google\Service\Drive\DriveFile([
-            'name'    => $name.'.webm',
-          ]);
-        } else {
-          $fileMetadata = new Google\Service\Drive\DriveFile([
-            'name'    => $name.'.webm',
-            'parents' => [$result['folderCode']],
-          ]);
-        }
+        $fileMetadata = new Google\Service\Drive\DriveFile([
+          'name'    => $nameRandom,
+          'parents' => $result['folderCode'] !== "" ? [$result['folderCode']] : [],
+        ]);
+  
 
         $file = $service->files->create(
           $fileMetadata,

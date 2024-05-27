@@ -230,7 +230,7 @@ function table_record_system(search) {
 
             var dataTableJson = {
                                     lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
-                                    columnDefs: [
+                                    columnDefs: [ 
                                         { "width": "2%"  , "targets": [0, 1, 6] },
                                         { "width": "5%"  , "targets": [2] },
                                         { "width": "14%" , "targets": [3, 4, 5] },
@@ -251,6 +251,7 @@ function table_record_system(search) {
                 table.DataTable().destroy();
                 table.html(jsonData.thead + jsonData.tbody);
                 table.DataTable(dataTableJson);
+                shiftKeyCheckbox();
             }, 500);
 
         },
@@ -305,56 +306,6 @@ function deleteRecord(id) {
         }
     });
     
-}
-
-
-function checkAll() {
-    const checkAll   = $('#checkAll');
-    const checkboxes = $('[name="checkItem[]"]');
-    const btnCheckAll = $('#btnCheckAll');
-  
-    checkAll.on('change', function() {
-      checkboxes.each(function() {
-        $(this).prop('checked', checkAll.prop('checked'));
-      });
-    });
-  
-    checkboxes.each(function() {
-      $(this).on('change', function() {
-        if (!$(this).prop('checked')) {
-          checkAll.prop('checked', false);
-        } else {
-          const allChecked = checkboxes.toArray().every(ch => $(ch).prop('checked'));
-          checkAll.prop('checked', allChecked);
-        }
-      });
-    });
-  
-    if (checkAll.prop('checked')) {
-      btnCheckAll.removeClass('text-secondary').addClass('text-primary');
-      btnCheckAll.html('<i class="fas fa-check-square mr-1"></i> Select All');
-    } else {
-      btnCheckAll.removeClass('text-primary').addClass('text-secondary');
-      btnCheckAll.html('<i class="fas fa-square mr-1"></i> Select All');
-    }
-}
-  
-function btnCheckAll() {
-    const checkAll   = $('#checkAll');
-    const checkboxes = $('[name="checkItem[]"]');
-    const btnCheckAll = $('#btnCheckAll');
-  
-    checkboxes.each(function() {
-      $(this).prop('checked', !checkAll.prop('checked'));
-    });
-  
-    checkAll.prop('checked', !checkAll.prop('checked'));
-  
-    if (checkAll.prop('checked')) {
-      btnCheckAll.removeClass('text-secondary').addClass('text-primary');
-    } else {
-      btnCheckAll.removeClass('text-primary').addClass('text-secondary');
-    }
 }
 
 function btnDeleteAll() {

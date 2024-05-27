@@ -12,7 +12,7 @@
     $client->setClientSecret(API_GOOGLE_CLIENT_SECRET);
     $client->setRedirectUri(API_GOOGLE_CALLBACK_URL);
     $client->setScopes(['email', 'profile']);
-    $client->addScope("https://www.googleapis.com/auth/drive");
+    $client->addScope("https://www.googleapis.com/auth/drive.file");
     $client->setAccessType('offline');
     $client->setApprovalPrompt('force');
 

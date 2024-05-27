@@ -15,10 +15,16 @@
 <!-- [Head] start -->
 
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Dashboard Template</title>
-    <meta charset="utf-8">
     <!-- [Meta] -->
 
+    <!-- Required jquery Js --> 
+    <script src="assets/js/jquery-3.7.1.min.js"></script> 
+    
     <script src="functions/javascript.config.js"></script>
     <script src="functions/javascript.functions.js"></script>
     <!-- [Google Font : Public Sans] icon -->
@@ -53,8 +59,6 @@
     <link rel="stylesheet" href="assets/css/style-preset.css">
     <link rel="stylesheet" href="assets/css/style.css" id="main-style-link">
 
-    <!-- Required jquery Js --> 
-    <script src="assets/js/jquery-3.7.1.min.js"></script> 
 
     <script src="assets/js/plugins/flatpickr.min.js"></script>
     <script src="assets/js/plugins/choices.min.js"></script>

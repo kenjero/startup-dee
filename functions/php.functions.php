@@ -179,6 +179,11 @@ Class AddOn {
         return $randomString;
     }
 
+    function regexTextbox($minLength, $maxLength) {
+        $regex = '/^[A-Za-z0-9]{' . $minLength . ',' . $maxLength . '}$/';
+        return $regex;
+     }
+
 }
 // End Class AddOn
 
