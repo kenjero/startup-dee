@@ -507,7 +507,7 @@ function btnDeleteAll() {
                 success: function (response) {
                     var jsonData = JSON.parse(response);
                     if(jsonData.status === "success"){
-                        notifier.show('Deleted!', 'Your record has been deleted.', 'danger', NOTIFIER_IMAGE_DANGER, 4000);
+                        notifier.show('Deleted!', 'Your product has been deleted.', 'danger', NOTIFIER_IMAGE_DANGER, 4000);
                     }
 
                     $('#tr' + id).delay(100).fadeOut(500, function() {

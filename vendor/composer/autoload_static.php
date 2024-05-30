@@ -24,22 +24,29 @@ class ComposerStaticInit42c9f863b9261e4491fa706324329494
         array (
             'gimucco\\TikTokLoginKit\\' => 23,
         ),
+        'Z' => 
+        array (
+            'ZipStream\\' => 10,
+        ),
         'T' => 
         array (
             'TyperEJ\\LineLogin\\' => 18,
         ),
         'P' => 
         array (
+            'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
             'ParagonIE\\ConstantTime\\' => 23,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Matrix\\' => 7,
         ),
         'G' => 
         array (
@@ -54,6 +61,10 @@ class ComposerStaticInit42c9f863b9261e4491fa706324329494
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'C' => 
+        array (
+            'Complex\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -65,9 +76,17 @@ class ComposerStaticInit42c9f863b9261e4491fa706324329494
         array (
             0 => __DIR__ . '/..' . '/gimucco/tiktok-loginkit/src',
         ),
+        'ZipStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
         'TyperEJ\\LineLogin\\' => 
         array (
             0 => __DIR__ . '/..' . '/typerej/line-login/src',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -86,6 +105,10 @@ class ComposerStaticInit42c9f863b9261e4491fa706324329494
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
         'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
@@ -97,6 +120,10 @@ class ComposerStaticInit42c9f863b9261e4491fa706324329494
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Matrix\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -125,6 +152,10 @@ class ComposerStaticInit42c9f863b9261e4491fa706324329494
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Complex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
         ),
     );
 

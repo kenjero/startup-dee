@@ -474,7 +474,7 @@ if ($_POST['method'] == "showModalAddProduct") {
   $check_auth_google = $auth->check_EmailGoogleAPI($_SESSION['user_info']['member_id']);
   if (empty($check_auth_google)) {
     $modal .= ' 
-                    <button type="button" class="w-100 btn mt-2 btn-light text-dark" onclick="window.location.href=\'setting_record\'">
+                    <button type="button" class="w-100 btn mt-2 btn-light text-dark" onclick="window.location.href=\'setting_google\'">
                       <img class="me-2 pb-1" src="assets/images/authentication/google_drive.png" width="16" alt="img">
                       <span class="d-sm-inline-block">Setting Google Drive!!</span>
                     </button>
@@ -570,7 +570,7 @@ if ($_POST['method'] == "showModalEditProduct") {
   $check_auth_google = $auth->check_EmailGoogleAPI($_SESSION['user_info']['member_id']);
   if (empty($check_auth_google)) {
     $modal .= ' 
-                    <button type="button" class="w-100 btn mt-2 btn-light text-dark" onclick="window.location.href=\'setting_record\'">
+                    <button type="button" class="w-100 btn mt-2 btn-light text-dark" onclick="window.location.href=\'setting_google\'">
                       <img class="me-2 pb-1" src="assets/images/authentication/google_drive.png" width="16" alt="img">
                       <span class="d-sm-inline-block">Setting Google Drive!!</span>
                     </button>

@@ -45,19 +45,31 @@
             <div class="navbar-content">
                 <ul class="pc-navbar">
                     <li class="pc-item pc-caption">
+                        <label>Order </label>
+                        <span>Order list</span>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#" class="pc-link">
+                            <span class="pc-micon"><i class="ph-duotone ph-clipboard-text"></i></span>
+                            <span class="pc-mtext">Order System</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item"><a class="pc-link" href="order_lazada">Lazada order</a></li>
+                            <li class="pc-item"><a class="pc-link" href="order_shopee">Shopee order</a></li>
+                            <li class="pc-item"><a class="pc-link" href="order_tiktok">Tiktok order</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="pc-item pc-caption">
                         <label>System </label>
                         <span>Application Connection</span>
                     </li>
                     <li class="pc-item pc-hasmenu">
-                        <a href="#" class="pc-link">
+                        <a href="record" class="pc-link">
                             <span class="pc-micon"><i class="ph-duotone ph-file-video"></i></span>
                             <span class="pc-mtext">Recode System</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="record">Packing record</a></li>
-                            <li class="pc-item"><a class="pc-link" href="setting_record">Setting record</a></li>
-                        </ul>
                     </li>
                     <li class="pc-item pc-hasmenu">
                         <a href="#" class="pc-link">
@@ -78,14 +90,14 @@
                     </li>
 
                     <li class="pc-item pc-caption">
-                        <label>Profile</label>
+                        <label>Setting</label>
                         <i class="ph-duotone ph-chart-pie"></i>
-                        <span>Member Profile</span>
+                        <span>Setting Application</span>
                     </li>
                     <li class="pc-item">
-                        <a href="widget/w_statistics.html" class="pc-link">
-                            <span class="pc-micon"><i class="ph-duotone ph-projector-screen-chart"></i></span>
-                            <span class="pc-mtext">Statistics</span>
+                        <a href="setting_google" class="pc-link">
+                            <span class="pc-micon"><i class="fab fa-google-drive"></i></span>
+                            <span class="pc-mtext">Setting Google drive</span>
                         </a>
                     </li>
                 </ul>
@@ -96,6 +108,7 @@
                         <p class="text-white text-opacity-75">Help for beginners.</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </nav>

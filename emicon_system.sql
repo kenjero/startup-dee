@@ -20,6 +20,203 @@ SET time_zone = "+00:00";
 --
 -- Database: `emicon_system`
 --
+/* CREATE TABLE `lazada_order` (
+orderItemId varchar(20) NOT NULL,
+orderType varchar(25) NOT NULL,
+Guarantee varchar(25) NOT NULL,
+deliveryType varchar(25) NOT NULL,
+lazadaId varchar(20) NOT NULL,
+sellerSku varchar(155) NOT NULL,
+lazadaSku varchar(30) NOT NULL,
+wareHouse varchar(30) NOT NULL,
+createTime varchar(20) NOT NULL,
+updateTime varchar(20) NOT NULL,
+rtsSla varchar(30) NOT NULL,
+ttsSla varchar(20) NOT NULL,
+orderNumber varchar(20) NOT NULL,
+invoiceRequired varchar(5) NOT NULL,
+invoiceNumber varchar(20) NOT NULL,
+deliveredDate varchar(20) NOT NULL,
+customerName varchar(155) NOT NULL,
+customerEmail varchar(155) NOT NULL,
+nationalRegistrationNumber varchar(25) NOT NULL,
+shippingName varchar(15) NOT NULL,
+shippingAddress varchar(15) NOT NULL,
+shippingAddress2 varchar(15) NOT NULL,
+shippingAddress3 varchar(15) NOT NULL,
+shippingAddress4 varchar(15) NOT NULL,
+shippingAddress5 varchar(15) NOT NULL,
+shippingPhone varchar(15) NOT NULL,
+shippingPhone2 varchar(15) NOT NULL,
+shippingCity varchar(15) NOT NULL,
+shippingPostCode int(5) NOT NULL,
+shippingCountry varchar(15) NOT NULL,
+shippingRegion varchar(15) NOT NULL,
+billingName varchar(15) NOT NULL,
+billingAddr varchar(15) NOT NULL,
+billingAddr2 varchar(15) NOT NULL,
+billingAddr3 varchar(15) NOT NULL,
+billingAddr4 varchar(15) NOT NULL,
+billingAddr5 varchar(15) NOT NULL,
+billingPhone varchar(15) NOT NULL,
+billingPhone2 varchar(15) NOT NULL,
+billingCity varchar(15) NOT NULL,
+billingPostCode int(5) NOT NULL,
+billingCountry varchar(15) NOT NULL,
+taxCode varchar(15) NOT NULL,
+branchNumber varchar(15) NOT NULL,
+taxInvoiceRequested varchar(10) NOT NULL,
+payMethod varchar(100) NOT NULL,
+paidPrice float(15) NOT NULL,
+unitPrice float(15) NOT NULL,
+sellerDiscountTotal float(15) NOT NULL,
+shippingFee float(15) NOT NULL,
+walletCredit float(15) NOT NULL,
+itemName varchar(255) NOT NULL,
+variation varchar(100) NOT NULL,
+cdShippingProvider varchar(100) NOT NULL,
+shippingProvider varchar(50) NOT NULL,
+shipmentTypeName varchar(50) NOT NULL,
+shippingProviderType varchar(50) NOT NULL,
+cdTrackingCode varchar(50) NOT NULL,
+trackingCode varchar(50) NOT NULL,
+trackingUrl varchar(50) NOT NULL,
+shippingProviderFM varchar(50) NOT NULL,
+trackingCodeFM varchar(50) NOT NULL,
+trackingUrlFM varchar(50) NOT NULL,
+promisedShippingTime varchar(50) NOT NULL,
+premium varchar(5) NOT NULL,
+status varchar(15) NOT NULL,
+buyerFailedDeliveryReturnInitiator varchar(50) NOT NULL,
+buyerFailedDeliveryReason varchar(50) NOT NULL,
+buyerFailedDeliveryDetail varchar(50) NOT NULL,
+buyerFailedDeliveryUserName varchar(50) NOT NULL,
+bundleId varchar(50) NOT NULL,
+semiManaged varchar(10) NOT NULL,
+flexibleDeliveryTime varchar(50) NOT NULL,
+bundleDiscount varchar(50) NOT NULL,
+refundAmount varchar(50) NOT NULL,
+sellerNote varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci; */
+
+/* CREATE TABLE `order_shopee` (
+orderNumber varchar(15) NOT NULL,
+orderStatus varchar(15) NOT NULL,
+statusBuyer varchar(50) NOT NULL,
+cancelingOrder varchar(150) NOT NULL,
+usernameBuyer varchar(15) NOT NULL,
+orderDate datetime NULL,
+paymentTime datetime NULL,
+paymentChannels varchar(80) NOT NULL,
+paymentMethods varchar(80) NOT NULL,
+paymentChannelDetails varchar(50) NOT NULL,
+installmentPaymentPlan varchar(50) NOT NULL,
+fee varchar(7) NOT NULL,
+shippingOptions varchar(80) NOT NULL,
+shippingMethods varchar(50) NOT NULL,
+packageTrackingNumber varchar(20) NOT NULL,
+expectedDeliveryDate datetime NULL,
+deliveryTime datetime NULL,
+referenceParentSKU  varchar(20) NOT NULL,
+productName varchar(255) NOT NULL,
+SKUReferenceNo varchar(10) NOT NULL,
+optionName varchar(50) NOT NULL,
+initialPrice float NOT NULL,
+sellingPrice float NOT NULL,
+quantity int(7) NOT NULL,
+returnedQuantity int(7) NOT NULL,
+netSellingPrice float NOT NULL,
+discountFromShopee float NOT NULL,
+discountCodePaidBySeller float NOT NULL,
+coinsCashback float NOT NULL,
+discountCodeShopee float NOT NULL,
+discountCode varchar(50) NOT NULL,
+joinTheBundleDealCampaign varchar(1) NOT NULL,
+bundleDealDiscountPaidBySeller float NOT NULL,
+bundleDealDiscountPaidByShopee float NOT NULL,
+discountFromUsingCoins float NOT NULL,
+allDiscountsFromCreditCards float NOT NULL,
+commission float NOT NULL,
+transactionFee float NOT NULL,
+costOfSalesMinusCouponsAndCoins float NOT NULL,
+shippingCostPaidByBuyer float NOT NULL,
+estimatedShippingCostsProvidedByShopee. float NOT NULL,
+returnShippingCost float NOT NULL,
+serviceFee float NOT NULL,
+totalAmount float NOT NULL,
+estimatedShipping  float NOT NULL,
+recipientName varchar(15) NOT NULL,
+phone varchar(10) NOT NULL,
+note varchar(50) NOT NULL,
+deliveryAddress varchar(150) NOT NULL,
+country varchar(2) NOT NULL,
+province varchar(100) NOT NULL,
+district varchar(100) NOT NULL,
+zip varchar(5) NOT NULL,
+orderType varchar(50) NOT NULL,
+completed datetime NULL,
+record  varchar(25) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci; */
+
+
+
+/*
+orderNumber
+orderStatus
+statusOfRefundOrReturn
+usernameBuyer
+orderDate
+paymentTime
+paymentChannels
+paymentMethods 
+installmentPlan
+fee
+shippingOptions
+shippingMethods
+packageTrackingNumber
+expectedDeliveryDate
+deliveryTime
+referenceParentSKU
+productName
+SKUReferenceNo
+optionName
+initialPrice
+sellingPrice
+quantity
+returnedQuantity
+netSellingPrice
+discountFromShopee
+discountCodePaidBySeller
+coinsCashback
+discountCodeShopee
+discountCode
+joinTheBundleDealCampaign
+bundleDealDiscountPaidBySeller
+bundleDealDiscountPaidByShopee
+discountFromUsingCoins
+allDiscountsFromCreditCards
+commission
+transactionFee
+costOfSalesMinusCouponsAndCoins
+shippingCostPaidByBuyer
+estimatedShippingCostsProvidedByShopee
+returnShippingCost
+serviceFee
+totalAmount
+estimatedShipping 
+recipientName
+phone
+note 
+deliveryAddress
+country
+province
+district
+zip
+orderType
+completed
+record
+*/
+
 
 -- --------------------------------------------------------
 

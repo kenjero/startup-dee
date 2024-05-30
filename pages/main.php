@@ -24,11 +24,6 @@
         $description = "This is the Recode Vdo System page description.";
         include 'pages/record/record.php';
     }
-    if ($pages === "setting_record") {
-        $title = "Record Vdo Setting";
-        $description = "This is the Recode Vdo System page description.";
-        include 'pages/record/setting_record.php';
-    }
 
     ///// qrcode system /////
     if ($pages === "qrcode") {
@@ -47,6 +42,26 @@
         $title = "Products System";
         $description = "This is the Recode Vdo System page description.";
         include 'pages/product/product.php';
+    }
+
+    ///////////////////////////
+    ////// Order System  //////
+    ///////////////////////////
+
+    ///// Order Lazada /////
+    if ($pages === "order_lazada") {
+        $title = "Lazada order";
+        $description = "This is the Lazada orderSystem page description.";
+        include 'pages/order_lazada/order_lazada.php';
+    }
+
+    ///////////////////////////
+    ///// Setting Google  /////
+    ///////////////////////////
+    if ($pages === "setting_google") {
+        $title = "Google Setting";
+        $description = "This is the Google System page description.";
+        include 'pages/setting_google/setting_google.php';
     }
 
 ?>

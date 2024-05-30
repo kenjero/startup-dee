@@ -16,7 +16,7 @@
             ?>
 
               <div id="container"> 
-                <button type="button" class="w-100 btn mt-2 btn-light" onclick="window.location.href='setting_record'">
+                <button type="button" class="w-100 btn mt-2 btn-light" onclick="window.location.href='setting_google'">
                   <i class="fas fa-cog me-2"></i><span class="d-sm-inline-block">Setting Google Drive!!</span>
                 </button>
               </div>
